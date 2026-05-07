@@ -8,16 +8,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Domaći Proizvodi iz Slavonije | OPG Skočibušić",
+  title: "Domaći Proizvodi iz Slavonije - OPG Skočibušić",
   description:
     "Uživajte u okusima tradicije uz domaće meso, voće i povrće OPG-a Skočibušić. Prirodni sastojci iz srca Slavonije, bez aditiva.",
   keywords: [
-    "OPG Skočibušić",
-    "domaći proizvodi",
+    "OPG",
+    "Skocibusic",
+    "domaci proizvodi",
     "Slavonija",
     "sadnice",
     "meso",
-    "povrće",
+    "povrce",
     "zdrava hrana",
   ],
   authors: [{ name: "OPG Skočibušić" }],
