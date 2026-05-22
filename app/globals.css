@@ -39,11 +39,15 @@ nav {
   background: rgba(30, 45, 24, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0 1.5rem;
+  padding: 0 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 70px;
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
 }
 .nav-logo {
   display: flex;
@@ -87,18 +91,6 @@ nav {
 }
 .nav-links a:hover::after {
   transform: scaleX(1);
-}
-.nav-cta {
-  background: var(--green) !important;
-  color: var(--white) !important;
-  padding: 0.5rem 1.2rem;
-  border-radius: 50px;
-}
-.nav-cta:hover {
-  background: var(--green-mid) !important;
-}
-.nav-cta::after {
-  display: none !important;
 }
 
 .hamburger {
@@ -171,7 +163,7 @@ nav {
         rgba(255, 255, 255, 0.8) 10%,
         transparent 40%
       ),
-    /* THIRD LAYER: image itself*/ url("/hero-bg.webp") 50% 40% / cover
+    /* THIRD LAYER: image itself*/ url("/hero-bg-1.jpeg") 50% 40% / cover
       no-repeat;
 
   display: flex;
@@ -198,7 +190,7 @@ nav {
           rgba(255, 255, 255, 0.8) 10%,
           transparent 40%
         ),
-      /* THIRD LAYER: image itself*/ url("/hero-bg.webp") 42% 40% / cover
+      /* THIRD LAYER: image itself*/ url("/hero-bg-1.jpeg") 46% 40% / cover
         no-repeat;
   }
 }
@@ -227,16 +219,17 @@ nav {
     max-width: 400px;
   }
 }
+
 .home-buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  /* Dodajemo blagu sjenu cijeloj grupi gumba ako su prenisko */
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
   z-index: 2;
 }
 
+/* Base button styles */
 .btn {
   display: inline-block;
   text-decoration: none;
@@ -244,28 +237,45 @@ nav {
   padding: 0.9rem 2.2rem;
   font-weight: 600;
   font-size: 0.95rem;
+  text-align: center; /* Centers text when button expands */
+  box-sizing: border-box; /* Includes padding/border in total height/width */
+  border: 2px solid transparent; /* Invisible border so height perfectly matches the outline button */
   transition:
     transform 0.2s,
     box-shadow 0.2s;
 }
+
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
 }
+
 .btn-primary {
   background: var(--green);
   color: var(--white);
 }
+
 .btn-outline {
-  background: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Blaga ispuna da se ne izgubi na bjelini */
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
   border: 2px solid rgba(255, 255, 255, 0.8);
   color: var(--white);
+}
+
+/* When the screen is small and buttons wrap into separate rows 
+  (Adjust 480px to match your design breakpoint if needed)
+*/
+@media (max-width: 480px) {
+  .home-buttons {
+    flex-direction: column;
+    align-items: center; /* Centers the stack on the screen */
+  }
+
+  .btn {
+    width: 100%; /* Forces buttons to stretch to the same size */
+    max-width: 260px; /* Prevents them from becoming awkwardly wide on mobile */
+  }
 }
 
 /* ── SECTIONS COMMON ── */

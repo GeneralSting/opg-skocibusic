@@ -12,15 +12,13 @@ export default function About() {
 
           <div className="about-content">
             <div className="section-label">O nama</div>
-            <h2 className="section-title">
-              Tradicija i priroda u svakom proizvodu
-            </h2>
+            <h2 className="section-title">Malo gospodarstvo. Velika pažnja.</h2>
             <p className="section-desc">
-              Naše obiteljsko poljoprivredno gospodarstvo smješteno u srcu
-              slavonije posvećeno je proizvodnji autentičnih, domaćih proizvoda.
-              Naš pristup temelji se na dubokom poštovanju prirode, životinja i
-              nasljeđa naših predaka — sve s jednim ciljem: donijeti na vaš stol
-              ono najbolje i najzdravije što zemlja može dati.
+              Naše obiteljsko poljoprivredno gospodarstvo smješteno je u selu
+              Koritna, u srcu plodne slavonske zemlje. Uzgajamo i proizvodimo
+              hranu koju i sami ponosno stavljamo na svoj stol. Vjerujemo da ono
+              što dolazi iz prirode, uzgojeno s pažnjom, poštovanjem i bez
+              nepotrebnih dodataka, donosi ono najvrjednije: pravi okus domaćeg.
             </p>
 
             <div className="about-values">

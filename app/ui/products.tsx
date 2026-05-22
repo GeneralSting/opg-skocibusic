@@ -91,7 +91,8 @@ const Products: FC = () => {
           <div className="section-label">Ponuda</div>
           <h2 className="section-title">Naši Proizvodi</h2>
           <p className="section-desc" style={{ margin: "0 auto" }}>
-            Ponuda se redovito mijenja — provjerite što je trenutno dostupno
+            Uzgojimo, pa prodamo. Zato se lista mijenja - pratite što je
+            trenutno dostupno.
           </p>
         </div>
 
