@@ -9,8 +9,8 @@ export default function Contact() {
             <div className="section-label">Kontakt</div>
             <h2 className="section-title">Stupite u kontakt</h2>
             <p className="section-desc">
-              Za sve upite o dostupnosti, cijenama i narudžbama — kontaktirajte
-              nas direktno putem telefona ili društvenih mreža.
+              Za sve upite o dostupnosti, cijenama i narudžbama - kontaktirajte
+              nas direktno putem mobitela ili društvenih mreža.
             </p>
 
             <div className="contact-cards">
@@ -77,7 +77,7 @@ export default function Contact() {
             <div className="contact-map">
               <iframe
                 title="Lokacija OPG Skočibušić na Google kartama"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d11209.16!2d17.0165!3d43.8765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x134adbb9f3f4c4e7%3A0x9e5a9e4c5c1b4b1e!2sKoritna%2C%20Hrvatska!5e0!3m2!1shr!2shr!4v1699000000000!5m2!1shr!2shr"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7924.904565703029!2d18.553324333636535!3d45.391654384453695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475cfbca2116fc81%3A0x561b7d995106de8a!2sKolodvorska%20129%2C%2031400%2C%20Koritna!5e0!3m2!1shr!2shr!4v1779461844500!5m2!1shr!2shr"
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
@@ -87,7 +87,7 @@ export default function Contact() {
                   border: 0,
                   display: "block",
                 }}
-              ></iframe>
+              />
             </div>
           </div>
         </div>

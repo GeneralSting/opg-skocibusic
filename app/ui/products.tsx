@@ -12,46 +12,52 @@ interface Product {
 
 const productsData: Product[] = [
   {
-    img: "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=600&q=80",
-    title: "Goveđe meso",
-    desc: "Svježe meso domaćeg goveda, uzgojenog na prirodnoj paši.",
+    img: "/meat.webp",
+    title: "Domaće meso",
+    desc: "Govedina, svinjetina, janjetina...",
     tag: "Dostupno",
   },
   {
-    img: "https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=600&q=80",
-    title: "Svinjsko meso",
-    desc: "Tradicionalno uzgojene svinje domaćeg podrijetla.",
+    img: "/chicken-eggs.webp",
+    title: "Kokošja Jaja",
+    desc: "Svježa jaja slobodnih kokoša",
     tag: "Dostupno",
   },
   {
-    img: "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=600&q=80",
-    title: "Kokošja jaja",
-    desc: "Svježa jaja slobodnih kokoši — bogata okusom.",
+    img: "/agro-services.webp",
+    title: "Poljoprivredne usluge",
+    desc: "Usluge poljoprivrednim strojevima u ratarstvu i ugovaranje proizvodnje",
     tag: "Dostupno",
   },
   {
-    img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=600&q=80",
-    title: "Sezonsko Povrće",
-    desc: "Domaći uzgoj bez pesticida, ovisno o trenutnoj sezoni.",
-    tag: "Uskoro", // Primjer statusa
+    img: "/livestock-feed.webp",
+    title: "Hrana za stoku",
+    desc: "Kukuruz, pšenica, ječam...",
+    tag: "Dostupno",
   },
   {
-    img: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&q=80",
+    img: "/vegetables-seedings.webp",
     title: "Presadnice povrća",
-    desc: "Zdrave sadnice za vaš vrt — rajčice, paprike i drugo.",
-    tag: "Dostupno",
+    desc: "Kvalitetno suho drvo za grijanje, pripremljeno i složeno.",
+    tag: "Uskoro",
   },
   {
-    img: "https://images.unsplash.com/photo-1542621334-a254cf47733d?w=600&q=80",
-    title: "Drvo za ogrjev",
-    desc: "Kvalitetno suho drvo za grijanje, pripremljeno i složeno.",
-    tag: "Dostupno",
+    img: "/vegetables.webp",
+    title: "Povrće",
+    desc: "Minijaturni vrt u staklenki — savršen ukras za dom.",
+    tag: "Uskoro",
+  },
+  {
+    img: "/vegetables.webp",
+    title: "Presadnice drveća",
+    desc: "Breza, hrast, joha, platana (javorlisna)...",
+    tag: "Uskoro",
   },
   {
     img: "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?w=600&q=80",
     title: "Biljni terarij",
-    desc: "Minijaturni vrt u staklenki — savršen ukras za dom.",
-    tag: "Dostupno",
+    desc: "U staklenkama kapaciteta 100ml i 150ml",
+    tag: "Uskoro",
   },
 ];
 
@@ -91,7 +97,8 @@ const Products: FC = () => {
           <div className="section-label">Ponuda</div>
           <h2 className="section-title">Naši Proizvodi</h2>
           <p className="section-desc" style={{ margin: "0 auto" }}>
-            Ponuda se redovito mijenja — provjerite što je trenutno dostupno
+            Uzgojimo, pa prodamo. Zato se lista mijenja - pratite što je
+            trenutno dostupno.
           </p>
         </div>
 

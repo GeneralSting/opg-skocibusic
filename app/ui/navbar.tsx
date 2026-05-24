@@ -88,11 +88,7 @@ export const Navbar: FC = () => {
             </Link>
           </li>
           <li>
-            <Link
-              href="#contact"
-              className="nav-cta"
-              onClick={(e) => handleScroll(e, "contact")}
-            >
+            <Link href="#contact" onClick={(e) => handleScroll(e, "contact")}>
               Kontakt
             </Link>
           </li>

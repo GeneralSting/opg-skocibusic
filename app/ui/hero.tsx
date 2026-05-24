@@ -8,14 +8,14 @@ const Hero: FC = () => (
       <em>Skočibušić</em>
     </h1>
     <p className="home-subtitle">
-      Prirodni domaći proizvodi uzgojeni s ljubavlju prema zemlji - iz Koritne.
+      Adresa domaće hrane - plodovi uzgojeni u skladu s prirodom i tradicijom
     </p>
     <div className="home-buttons">
       <a href="#products" className="btn btn-primary">
-        Pogledaj proizvode
+        Pregled proizvoda
       </a>
       <a href="#contact" className="btn btn-outline">
-        Kontaktiraj nas
+        Kontakt
       </a>
     </div>
   </section>

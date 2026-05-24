@@ -39,12 +39,17 @@ nav {
   background: rgba(30, 45, 24, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0 1.5rem;
+  padding: 0 3rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 70px;
+
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
 }
+
 .nav-logo {
   display: flex;
   align-items: center;
@@ -52,17 +57,18 @@ nav {
 }
 
 .nav-logo-text {
-  font-family: "Playfair Display", serif;
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--white);
   line-height: 1.2;
 }
+
 .nav-links {
   display: flex;
   gap: 2rem;
   list-style: none;
 }
+
 .nav-links a {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.8);
@@ -71,6 +77,7 @@ nav {
   transition: color 0.2s;
   position: relative;
 }
+
 .nav-links a::after {
   content: "";
   position: absolute;
@@ -82,23 +89,13 @@ nav {
   transform: scaleX(0);
   transition: transform 0.2s;
 }
+
 .nav-links a:hover {
   color: #b8d89a;
 }
+
 .nav-links a:hover::after {
   transform: scaleX(1);
-}
-.nav-cta {
-  background: var(--green) !important;
-  color: var(--white) !important;
-  padding: 0.5rem 1.2rem;
-  border-radius: 50px;
-}
-.nav-cta:hover {
-  background: var(--green-mid) !important;
-}
-.nav-cta::after {
-  display: none !important;
 }
 
 .hamburger {
@@ -110,6 +107,7 @@ nav {
   border: none;
   padding: 4px;
 }
+
 .hamburger span {
   display: block;
   width: 24px;
@@ -130,9 +128,11 @@ nav {
   flex-direction: column;
   gap: 1rem;
 }
+
 .mobile-menu.open {
   display: flex;
 }
+
 .mobile-menu a {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.85);
@@ -171,7 +171,7 @@ nav {
         rgba(255, 255, 255, 0.8) 10%,
         transparent 40%
       ),
-    /* THIRD LAYER: image itself*/ url("/hero-bg.webp") 50% 40% / cover
+    /* THIRD LAYER: image itself*/ url("/hero-bg-1.jpeg") 50% 40% / cover
       no-repeat;
 
   display: flex;
@@ -198,23 +198,25 @@ nav {
           rgba(255, 255, 255, 0.8) 10%,
           transparent 40%
         ),
-      /* THIRD LAYER: image itself*/ url("/hero-bg.webp") 42% 40% / cover
+      /* THIRD LAYER: image itself*/ url("/hero-bg-1.jpeg") 46% 40% / cover
         no-repeat;
   }
 }
+
 #home h1 {
-  font-family: "Playfair Display", serif;
   font-size: clamp(3.5rem, 9vw, 7rem);
   color: var(--white);
   line-height: 1.05;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
   color: #b8d89a;
 }
+
 #home h1 em {
   color: #fff;
   font-style: normal;
 }
+
 .home-subtitle {
   font-size: clamp(1rem, 2.5vw, 1.25rem);
   color: rgba(255, 255, 255, 0.82);
@@ -227,16 +229,17 @@ nav {
     max-width: 400px;
   }
 }
+
 .home-buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  /* Dodajemo blagu sjenu cijeloj grupi gumba ako su prenisko */
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
   z-index: 2;
 }
 
+/* Base button styles */
 .btn {
   display: inline-block;
   text-decoration: none;
@@ -244,64 +247,158 @@ nav {
   padding: 0.9rem 2.2rem;
   font-weight: 600;
   font-size: 0.95rem;
+  text-align: center; /* Centers text when button expands */
+  box-sizing: border-box; /* Includes padding/border in total height/width */
+  border: 2px solid transparent; /* Invisible border so height perfectly matches the outline button */
   transition:
     transform 0.2s,
     box-shadow 0.2s;
 }
+
 .btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
 }
+
 .btn-primary {
   background: var(--green);
   color: var(--white);
 }
+
 .btn-outline {
-  background: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ); /* Blaga ispuna da se ne izgubi na bjelini */
+  min-width: 180px;
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
   border: 2px solid rgba(255, 255, 255, 0.8);
   color: var(--white);
+}
+
+/* When the screen is small and buttons wrap into separate rows 
+  (Adjust 480px to match your design breakpoint if needed)
+*/
+@media (max-width: 480px) {
+  .home-buttons {
+    flex-direction: column;
+    align-items: center; /* Centers the stack on the screen */
+  }
+
+  .btn {
+    width: 100%; /* Forces buttons to stretch to the same size */
+    max-width: 260px; /* Prevents them from becoming awkwardly wide on mobile */
+  }
 }
 
 /* ── SECTIONS COMMON ── */
 section {
   padding: 5rem 1.5rem;
 }
+
 .section-label {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--green-mid);
   font-weight: 600;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
+
 .section-title {
-  font-family: "Playfair Display", serif;
   font-size: clamp(2rem, 4vw, 3rem);
   color: var(--green);
   line-height: 1.2;
   margin-bottom: 1rem;
 }
+
 .section-desc {
   color: var(--gray);
   font-size: 1.05rem;
   line-height: 1.6;
   max-width: 620px;
 }
+
 .container {
   max-width: 1100px;
   margin: 0 auto;
 }
 
-/* ── O NAMA & VRIJEDNOSTI ── */
+/* ── About ── */
+
 #about {
   background: var(--white);
 }
+
+.slider-container {
+  position: relative;
+  width: 100%;
+}
+
+.slider-wrapper {
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(58, 92, 46, 0.12);
+  aspect-ratio: 4/5;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.slider-wrapper.dragging {
+  cursor: grabbing;
+}
+
+.slider-track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+}
+
+.slide {
+  flex: 0 0 100%;
+  position: relative;
+  height: 100%;
+}
+
+.slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: var(--green);
+  transform: scale(1.2);
+}
+
+.dot:hover {
+  background: var(--green-lt);
+  border-color: var(--green-lt);
+}
+
+@media (max-width: 992px) {
+  .slider-wrapper {
+    aspect-ratio: 16/13;
+  }
+}
+
+@media (max-width: 768px) {
+  .slider-wrapper {
+    aspect-ratio: 1/1;
+  }
+}
+
 .about-layout {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
@@ -344,6 +441,7 @@ section {
   background: var(--cream);
   width: 48px;
   height: 48px;
+  padding: 0.5rem;
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -354,7 +452,6 @@ section {
 }
 
 .value-item h3 {
-  font-family: "Playfair Display", serif;
   font-size: 1.1rem;
   color: var(--green);
   margin-bottom: 0.3rem;
@@ -366,7 +463,6 @@ section {
   line-height: 1.6;
 }
 
-/* Povezano s Media Queries na dnu tvog CSS-a, dodaj/zamijeni ovo: */
 @media (max-width: 992px) {
   .about-layout {
     grid-template-columns: 1fr;
@@ -376,6 +472,7 @@ section {
     aspect-ratio: 16/9;
   }
 }
+
 @media (max-width: 576px) {
   .about-values {
     grid-template-columns: 1fr;
@@ -383,7 +480,6 @@ section {
   }
 }
 
-/* ── PRODUCTS ── */
 /* ── PRODUCTS ── */
 #products {
   background: var(--cream);
@@ -443,10 +539,10 @@ section {
   display: flex;
   flex-direction: column;
   flex-grow: 1; /* Gura tag prema dnu ako opisi nisu iste dužine */
+  justify-content: space-between; /* This pushes content to top and tag to bottom */
 }
 
 .product-body h3 {
-  font-family: "Playfair Display", serif;
   font-size: 1.2rem;
   color: var(--green);
   margin-bottom: 0.5rem;
