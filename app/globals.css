@@ -157,6 +157,38 @@ nav {
 #home {
   min-height: 120vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 6rem 1.5rem 15rem;
+  overflow: hidden;
+
+  @media (max-width: 520px) {
+    min-height: 800px;
+  }
+}
+
+.hero-bg-image {
+  object-fit: cover !important;
+  object-position: 50% 40% !important;
+  z-index: 1 !important;
+
+  @media (max-width: 520px) {
+    object-position: 46% 40% !important;
+  }
+}
+
+/* 2. The Transparent Gradient Mask Layers */
+#home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* Sits perfectly above the image, but beneath text/buttons */
+  pointer-events: none; /* Prevents layout element from blocking mouse/link interactions */
+
+  /* Your exact gradient strings ported cleanly directly from your original build style */
   background: 
     /* FIRST LAYER: up, darker one*/
     linear-gradient(
@@ -171,42 +203,21 @@ nav {
         rgba(255, 255, 255, 1) 0%,
         rgba(255, 255, 255, 0.8) 10%,
         transparent 40%
-      ),
-    /* THIRD LAYER: image itself*/ url("/hero-bg.webp") 50% 40% / cover
-      no-repeat;
+      );
+}
 
+/* 3. The Content Layer Container Box */
+.hero-content {
+  position: relative;
+  z-index: 3; /* Forces text layout content safely above the active gradient mask layers */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 6rem 1.5rem 15rem;
-
-  @media (max-width: 520px) {
-    min-height: 800px;
-    background: 
-    /* FIRST LAYER: up, darker one*/
-      linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, 0.8) 0%,
-        rgba(0, 0, 0, 0.4) 50%,
-        transparent 60%
-      ),
-      /* SECOND LAYER: down, white transition from hero to the about section*/
-        linear-gradient(
-          to top,
-          rgba(255, 255, 255, 1) 0%,
-          rgba(255, 255, 255, 0.8) 10%,
-          transparent 40%
-        ),
-      /* THIRD LAYER: image itself*/ url("/hero-bg.webp") 46% 40% / cover
-        no-repeat;
-  }
+  width: 100%;
 }
 
 #home h1 {
   font-size: clamp(3.5rem, 9vw, 7rem);
-  color: var(--white);
   line-height: 1.05;
   margin-bottom: 1.2rem;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.5);
@@ -237,7 +248,6 @@ nav {
   flex-wrap: wrap;
   justify-content: center;
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
-  z-index: 2;
 }
 
 /* Base button styles */
