@@ -26,7 +26,7 @@ export const aboutImages: AboutImage[] = [
     alt: "Dva praseta jedno uz drugo",
   },
   {
-    src: "/about/sheep-breast-feeding.webp",
+    src: "/about/sheep-brest-feeding.webp",
     alt: "Janje stojeći doji ovcu",
   },
   {
