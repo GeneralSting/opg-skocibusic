@@ -1,72 +1,13 @@
 import { FC } from "react";
 import Image from "next/image";
-
-type ProductStatus = "Dostupno" | "Uskoro";
-
-interface Product {
-  img: string;
-  title: string;
-  desc: string;
-  tag: ProductStatus;
-}
-
-const productsData: Product[] = [
-  {
-    img: "/meat.webp",
-    title: "Domaće meso",
-    desc: "Govedina, svinjetina, janjetina...",
-    tag: "Dostupno",
-  },
-  {
-    img: "/chicken-eggs.webp",
-    title: "Kokošja Jaja",
-    desc: "Svježa jaja slobodnih kokoša",
-    tag: "Dostupno",
-  },
-  {
-    img: "/agro-services.webp",
-    title: "Poljoprivredne usluge",
-    desc: "Usluge poljoprivrednim strojevima u ratarstvu i ugovaranje proizvodnje",
-    tag: "Dostupno",
-  },
-  {
-    img: "/livestock-feed.webp",
-    title: "Hrana za stoku",
-    desc: "Kukuruz, pšenica, ječam...",
-    tag: "Dostupno",
-  },
-  {
-    img: "/vegetables-seedings.webp",
-    title: "Presadnice povrća",
-    desc: "Kvalitetno suho drvo za grijanje, pripremljeno i složeno.",
-    tag: "Uskoro",
-  },
-  {
-    img: "/vegetables.webp",
-    title: "Povrće",
-    desc: "Minijaturni vrt u staklenki — savršen ukras za dom.",
-    tag: "Uskoro",
-  },
-  {
-    img: "/vegetables.webp",
-    title: "Presadnice drveća",
-    desc: "Breza, hrast, joha, platana (javorlisna)...",
-    tag: "Uskoro",
-  },
-  {
-    img: "https://images.unsplash.com/photo-1463936575829-25148e1db1b8?w=600&q=80",
-    title: "Biljni terarij",
-    desc: "U staklenkama kapaciteta 100ml i 150ml",
-    tag: "Uskoro",
-  },
-];
+import { Product } from "../types";
+import { productsData } from "../data";
 
 const ProductCard: FC<{ prod: Product }> = ({ prod }) => {
   const isAvailable = prod.tag === "Dostupno";
 
   return (
     <div className={`product-card ${!isAvailable ? "upcoming" : ""}`}>
-      {/* Container za sliku s fiksnim omjerom (aspect-ratio) */}
       <div className="product-img-container">
         <Image
           src={prod.img}

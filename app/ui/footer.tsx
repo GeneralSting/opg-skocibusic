@@ -28,7 +28,7 @@ export default function Footer() {
               }}
             >
               <Image
-                src="/call.png"
+                src="/contact/call.png"
                 alt="Call"
                 width={24}
                 height={24}
@@ -42,17 +42,32 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image src="/facebook.png" alt="Facebook" width={32} height={32} />
+            <Image
+              src="/contact/facebook.png"
+              alt="Facebook"
+              width={32}
+              height={32}
+            />
           </a>
           <a
             href="https://wa.me/385914345249"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Image src="/whatsapp.png" alt="WhatsApp" width={32} height={32} />
+            <Image
+              src="/contact/whatsapp.png"
+              alt="WhatsApp"
+              width={32}
+              height={32}
+            />
           </a>
           <a href="mailto:drskocibusic@gmail.com">
-            <Image src="/gmail.png" alt="Gmail" width={32} height={32} />
+            <Image
+              src="/contact/gmail.png"
+              alt="Gmail"
+              width={32}
+              height={32}
+            />
           </a>
         </div>
 
