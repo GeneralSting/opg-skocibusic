@@ -131,10 +131,12 @@ export default function ImageSlider({ images }: ImageSliderProps) {
                 src={image.src}
                 alt={image.alt}
                 fill
+                quality={70}
                 className="about-image"
                 priority={index === 0}
                 loading={index === 0 ? "eager" : "lazy"}
-                sizes="(max-width: 992px) 100vw, 50vw"
+                // Gives sharper, smaller-sized images depending on the screen break
+                sizes="(max-width: 480px) 450px, (max-width: 992px) 700px, 50vw"
                 draggable={false}
               />
             </div>

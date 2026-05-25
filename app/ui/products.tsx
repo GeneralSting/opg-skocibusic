@@ -13,7 +13,9 @@ const ProductCard: FC<{ prod: Product }> = ({ prod }) => {
           src={prod.img}
           alt={prod.title}
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          quality={70}
+          // Adjusted sizes to better match actual displayed widths
+          sizes="(max-width: 500px) 350px, (max-width: 768px) 500px, (max-width: 1200px) 33vw, 25vw"
           className="product-img"
           style={{ objectFit: "cover" }}
         />
