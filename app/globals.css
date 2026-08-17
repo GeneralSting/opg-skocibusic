@@ -29,6 +29,44 @@ body {
   overflow-x: hidden;
 }
 
+/* --- ACCESSIBILITY --- */
+
+/*
+ * Keyboard focus indicator. `outline` follows the element's own border-radius,
+ * so no radius is set here (that would reshape the round slider dots)
+ */
+:focus-visible {
+  outline: 3px solid var(--green-mid);
+  outline-offset: 3px;
+}
+
+/* Light ring wherever the background is dark. */
+nav :focus-visible,
+.mobile-menu :focus-visible,
+.btn-outline:focus-visible {
+  outline-color: #b8d89a;
+}
+
+.slider-wrapper:focus-visible,
+.dot:focus-visible {
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* --- NAV --- */
 nav {
   position: fixed;

@@ -2,14 +2,10 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
-
-interface SliderImage {
-  src: string;
-  alt: string;
-}
+import { AboutImage } from "../types";
 
 interface ImageSliderProps {
-  images: SliderImage[];
+  images: AboutImage[];
 }
 
 export default function ImageSlider({ images }: ImageSliderProps) {
@@ -18,20 +14,18 @@ export default function ImageSlider({ images }: ImageSliderProps) {
   const [dragStart, setDragStart] = useState(0);
   const [dragOffset, setDragOffset] = useState(0);
   const [containerWidth, setContainerWidth] = useState(0);
+
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  // Update container width on mount and resize
-  useEffect(() => {
-    const updateWidth = () => {
-      if (sliderRef.current) {
-        setContainerWidth(sliderRef.current.offsetWidth);
-      }
-    };
+  // Calculate translateX using state instead of ref
+  const baseTranslate = -currentIndex * 100;
+  const dragTranslate =
+    isDragging && containerWidth > 0 ? (dragOffset / containerWidth) * 100 : 0;
 
-    updateWidth();
-    window.addEventListener("resize", updateWidth);
-    return () => window.removeEventListener("resize", updateWidth);
-  }, []);
+  const sliderStyle = {
+    transform: `translateX(${baseTranslate + dragTranslate}%)`,
+    transition: isDragging ? "none" : "transform 0.3s ease-in-out",
+  };
 
   const handleDragStart = useCallback((clientX: number) => {
     setIsDragging(true);
@@ -64,12 +58,12 @@ export default function ImageSlider({ images }: ImageSliderProps) {
   }, [isDragging, dragOffset, currentIndex, images.length]);
 
   // Touch events
-  const handleTouchStart = (e: React.TouchEvent) => {
-    handleDragStart(e.touches[0].clientX);
+  const handleTouchStart = (event: React.TouchEvent) => {
+    handleDragStart(event.touches[0].clientX);
   };
 
-  const handleTouchMove = (e: React.TouchEvent) => {
-    handleDragMove(e.touches[0].clientX);
+  const handleTouchMove = (event: React.TouchEvent) => {
+    handleDragMove(event.touches[0].clientX);
   };
 
   const handleTouchEnd = () => {
@@ -77,13 +71,13 @@ export default function ImageSlider({ images }: ImageSliderProps) {
   };
 
   // Mouse events
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    handleDragStart(e.clientX);
+  const handleMouseDown = (event: React.MouseEvent) => {
+    event.preventDefault();
+    handleDragStart(event.clientX);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    handleDragMove(e.clientX);
+  const handleMouseMove = (event: React.MouseEvent) => {
+    handleDragMove(event.clientX);
   };
 
   const handleMouseUp = () => {
@@ -96,26 +90,61 @@ export default function ImageSlider({ images }: ImageSliderProps) {
     }
   };
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-    setDragOffset(0);
+  const goToSlide = useCallback(
+    (index: number) => {
+      setCurrentIndex(Math.max(0, Math.min(index, images.length - 1)));
+      setDragOffset(0);
+    },
+    [images.length],
+  );
+
+  // Keyboard equivalent for the drag gesture.
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    switch (event.key) {
+      case "ArrowLeft":
+        event.preventDefault();
+        goToSlide(currentIndex - 1);
+        break;
+      case "ArrowRight":
+        event.preventDefault();
+        goToSlide(currentIndex + 1);
+        break;
+      case "Home":
+        event.preventDefault();
+        goToSlide(0);
+        break;
+      case "End":
+        event.preventDefault();
+        goToSlide(images.length - 1);
+        break;
+    }
   };
 
-  // Calculate translateX using state instead of ref
-  const baseTranslate = -currentIndex * 100;
-  const dragTranslate =
-    isDragging && containerWidth > 0 ? (dragOffset / containerWidth) * 100 : 0;
+  // Update container width on mount and resize
+  useEffect(() => {
+    const updateWidth = () => {
+      if (sliderRef.current) {
+        setContainerWidth(sliderRef.current.offsetWidth);
+      }
+    };
 
-  const sliderStyle = {
-    transform: `translateX(${baseTranslate + dragTranslate}%)`,
-    transition: isDragging ? "none" : "transform 0.3s ease-in-out",
-  };
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
 
   return (
-    <div className="slider-container">
+    <div
+      className="slider-container"
+      role="group"
+      aria-roledescription="karusel"
+      aria-label="Fotografije gospodarstva"
+    >
       <div
         ref={sliderRef}
         className={`slider-wrapper ${isDragging ? "dragging" : ""}`}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -126,15 +155,23 @@ export default function ImageSlider({ images }: ImageSliderProps) {
       >
         <div className="slider-track" style={sliderStyle}>
           {images.map((image, index) => (
-            <div key={index} className="slide">
+            <div
+              key={image.src}
+              className="slide"
+              aria-hidden={index !== currentIndex}
+            >
               <Image
                 src={image.src}
                 alt={image.alt}
                 fill
                 quality={70}
                 className="about-image"
-                priority={index === 0}
-                loading={index === 0 ? "eager" : "lazy"}
+                /**
+                 * All slides stay lazy, event first one
+                 * The whole slider is below the fold, and React 19 emits a "<link rel="preload"> for any image
+                 * that is not lazy - which would make this photos compete with the hero image for LCP
+                 */
+                loading="lazy"
                 // Gives sharper, smaller-sized images depending on the screen break
                 sizes="(max-width: 480px) 450px, (max-width: 992px) 700px, 50vw"
                 draggable={false}
@@ -146,12 +183,14 @@ export default function ImageSlider({ images }: ImageSliderProps) {
 
       {/* Dots Navigation */}
       <div className="slider-dots">
-        {images.map((_, index) => (
+        {images.map((image, index) => (
           <button
-            key={index}
+            key={image.src}
+            type="button"
             className={`dot ${index === currentIndex ? "active" : ""}`}
             onClick={() => goToSlide(index)}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Prikaži fotografiju ${index + 1} od ${images.length}`}
+            aria-current={index === currentIndex}
           />
         ))}
       </div>

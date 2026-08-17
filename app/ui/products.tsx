@@ -14,8 +14,13 @@ const ProductCard: FC<{ prod: Product }> = ({ prod }) => {
           alt={prod.title}
           fill
           quality={70}
-          // Adjusted sizes to better match actual displayed widths
-          sizes="(max-width: 500px) 350px, (max-width: 768px) 500px, (max-width: 1200px) 33vw, 25vw"
+          /*
+           * Real rendered width of a grid cell. The grid is
+           * `repeat(auto-fill, minmax(300px, 1fr))` with a 2rem gap inside the
+           * 1100px-capped `.container`, so it settles at 3 columns of
+           * (1100 - 64) / 3 = 345px and stops growing past a 1148px viewport.
+           */
+          sizes="(min-width: 1148px) 346px, (min-width: 1012px) calc((100vw - 112px) / 3), (min-width: 680px) calc((100vw - 80px) / 2), calc(100vw - 48px)"
           className="product-img"
           style={{ objectFit: "cover" }}
         />

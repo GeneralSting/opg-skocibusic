@@ -27,8 +27,19 @@ export const Navbar: FC = () => {
       }
     };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        hamburgerRef.current?.focus();
+      }
+    };
+
     document.addEventListener("click", handleClickOutside, { passive: true });
-    return () => document.removeEventListener("click", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isMenuOpen]);
 
   const handleScroll = (
@@ -40,7 +51,10 @@ export const Navbar: FC = () => {
     if (element) {
       event.preventDefault();
       element.scrollIntoView({
-        behavior: "smooth",
+        // CSS `scroll-behavior` is bypassed by scrollIntoView, so the  reduced-motion preference has to be honoured explicitly here
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
         block: "start",
       });
       window.history.pushState(null, "", `#${id}`);
@@ -64,7 +78,7 @@ export const Navbar: FC = () => {
               width={48}
               height={48}
               sizes="48px"
-              priority
+              loading="eager"
               style={{
                 objectFit: "contain",
                 height: "48px",
@@ -96,10 +110,12 @@ export const Navbar: FC = () => {
 
         <button
           ref={hamburgerRef}
+          type="button"
           className="hamburger"
           onClick={toggleMenu}
-          aria-label="Izbornik"
+          aria-label={isMenuOpen ? "Zatvori izbornik" : "Otvori izbornik"}
           aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
         >
           <span></span>
           <span></span>
@@ -108,7 +124,11 @@ export const Navbar: FC = () => {
       </nav>
 
       {/* Mobile Menu */}
-      <div ref={menuRef} className={`mobile-menu ${isMenuOpen ? "open" : ""}`}>
+      <div
+        ref={menuRef}
+        id="mobile-menu"
+        className={`mobile-menu ${isMenuOpen ? "open" : ""}`}
+      >
         <Link href="#about" onClick={(e) => handleScroll(e, "about")}>
           O nama
         </Link>

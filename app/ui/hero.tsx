@@ -7,8 +7,7 @@ const Hero: FC = () => (
       src="/hero-bg.webp"
       alt="OPG Skočibušić pozadina polja"
       fill
-      priority
-      fetchPriority="high"
+      preload // The LCP element: `preload` replaces the deprecated `priority` prop
       quality={50}
       sizes="100vw"
       className="hero-bg-image"

@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OPG Skočibušić
 
-## Getting Started
+Marketing site for OPG Skočibušić, a family farm in Koritna, Slavonia. Built
+with Next.js 16 (App Router) and Tailwind CSS 4. Single statically prerendered
+page — no database, no CMS, no online ordering.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command      | Description                |
+| ------------ | -------------------------- |
+| `pnpm dev`   | Start the dev server       |
+| `pnpm build` | Production build           |
+| `pnpm start` | Serve the production build |
+| `pnpm lint`  | Run ESLint                 |
 
-## Learn More
+## Configuration
 
-To learn more about Next.js, take a look at the following resources:
+`NEXT_PUBLIC_SITE_URL` must be set to the canonical production origin (for
+example `https://opg-skocibusic.hr`). It drives `metadataBase`, the canonical
+link, Open Graph URLs, `robots.txt` and `sitemap.xml`. On Vercel it falls back
+to the deployment's production URL, and to `http://localhost:3000` locally, so
+local development needs no setup.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+app/
+  layout.tsx        Root layout, metadata and LocalBusiness JSON-LD
+  page.tsx          Composes the page sections
+  site.ts           Canonical URL + business details (single source of truth)
+  data.ts           Product and gallery content
+  types.ts          Shared content types
+  globals.css       All styling
+  robots.ts         robots.txt
+  sitemap.ts        sitemap.xml
+  favicon.ico       Browser tab icon
+  apple-icon.png    iOS home-screen icon (180x180)
+  opengraph-image.jpg      Social sharing preview (1200x630)
+  opengraph-image.alt.txt  Alt text for the preview
+  ui/               Section components
+public/             Images, served from /
+```
 
-## Deploy on Vercel
+Icons and the sharing image live in `app/` rather than `public/` because they are
+Next.js [metadata file conventions](https://nextjs.org/docs/app/api-reference/file-conventions/metadata):
+Next emits the `<link>` and `<meta>` tags for them automatically, with hashed
+URLs and the correct `type`/`sizes` attributes. Everything referenced from JSX by
+path stays in `public/`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+`apple-icon.png` has the brand green baked in because iOS composites transparent
+icons onto black, and the logo mark is white on transparency — it was drawn for
+the dark navbar. If the logo changes, this file needs regenerating alongside
+`favicon.ico`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Content changes (products, gallery photos, availability) live in
+[`app/data.ts`](app/data.ts). Contact details and the canonical URL live in
+[`app/site.ts`](app/site.ts).
+
+## Notes
+
+- Images are optimised by `next/image`. Allowed `quality` values are declared in
+  [`next.config.ts`](next.config.ts) — Next.js 16 coerces any value not in
+  `images.qualities` to the nearest allowed one, so a new `quality` prop needs
+  to be added there too.
+- Only the hero image uses `preload`; it is the LCP element. Note that React 19
+  also emits a preload for any `<img>` that is not `loading="lazy"`, so
+  below-the-fold images must stay lazy or they will compete with the hero.
+- One product image is remote (Unsplash); its host is allowlisted under
+  `images.remotePatterns`. Remote images need their host added there.
+- `sizes` on the gallery and product images describes the real rendered width,
+  not a viewport fraction — `.container` caps at 1100px, so those columns stop
+  growing at 486px and 345px. If that layout changes, update `sizes` too.
+- The footer's copyright year is baked in at build time, since the page is fully
+  static. It updates on the next deploy.

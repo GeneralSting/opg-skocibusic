@@ -5,7 +5,12 @@ export default function Footer() {
     <footer className="footer-compact">
       <div className="container footer-flex">
         <div className="footer-brand-slim">
-          <Image src="/logo.webp" alt="Logo" width={48} height={48} />
+          <Image
+            src="/logo.webp"
+            alt="OPG Skočibušić logo"
+            width={48}
+            height={48}
+          />
           <span>OPG Skočibušić</span>
         </div>
 
@@ -29,7 +34,7 @@ export default function Footer() {
             >
               <Image
                 src="/contact/call.png"
-                alt="Call"
+                alt="Pozovite nas"
                 width={24}
                 height={24}
                 style={{ objectFit: "contain" }}
@@ -64,7 +69,7 @@ export default function Footer() {
           <a href="mailto:drskocibusic@gmail.com">
             <Image
               src="/contact/gmail.png"
-              alt="Gmail"
+              alt="Pošaljite e-mail"
               width={32}
               height={32}
             />
