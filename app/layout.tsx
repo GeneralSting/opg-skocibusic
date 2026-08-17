@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     icon: "/favicon.webp",
     apple: "/favicon.webp",
   },
+  verification: {
+    google: "k5LOiq2TUnYo0Opm5M7tl5X1yslDPQ8gihe5ne0IYMI",
+  },
 };
 
 export default function RootLayout({
