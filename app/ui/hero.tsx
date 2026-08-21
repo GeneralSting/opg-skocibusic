@@ -8,7 +8,7 @@ const Hero: FC = () => (
       alt="OPG Skočibušić pozadina polja"
       fill
       preload // The LCP element: `preload` replaces the deprecated `priority` prop
-      quality={50}
+      quality={70}
       sizes="100vw"
       className="hero-bg-image"
     />
@@ -20,11 +20,12 @@ const Hero: FC = () => (
         <em>Skočibušić</em>
       </h1>
       <p className="home-subtitle">
-        Adresa domaće hrane - plodovi uzgojeni u skladu s prirodom i tradicijom
+        Adresa domaće hrane i usluge - plodovi uzgojeni u skladu s prirodom i
+        tradicijom
       </p>
       <div className="home-buttons">
-        <a href="#products" className="btn btn-primary">
-          Pregled proizvoda
+        <a href="#djelatnosti" className="btn btn-primary">
+          Pregled ponude
         </a>
         <a href="#contact" className="btn btn-outline">
           Kontakt

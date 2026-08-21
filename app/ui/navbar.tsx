@@ -2,21 +2,68 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef, FC } from "react";
+import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef, FC, MouseEvent } from "react";
+import { CATALOG_HREF } from "../data";
+import { NavbarSectionId } from "../types";
+import { NavbarDesktop } from "./navbar-desktop";
+import { NavbarMobile } from "./navbar-mobile";
 
+/**
+ * Site Navigation
+ * Owns the open/closed state and the scroll behaviour - the two child compoents own nothing bet their own markup
+ * Borth render inside the single nav element
+ */
 export const Navbar: FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
   const menuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
 
+  const pathname = usePathname();
+
+  // The section links only scroll when those sections are on the current page
+  // Everywhere else they navigate home first, which Next handles for us
+  const isHome = pathname === "/";
+  const onCatalog = pathname.startsWith(CATALOG_HREF);
+
+  const sectionHref = (id: NavbarSectionId) => (isHome ? `#${id}` : `/#${id}`);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const closeMenu = () => setIsMenuOpen(false);
+
+  const handleScroll = (
+    event: MouseEvent<HTMLAnchorElement>,
+    id: NavbarSectionId,
+  ) => {
+    if (!isHome) {
+      closeMenu();
+      return;
+    }
+
+    const element = document.getElementById(id);
+
+    if (element) {
+      event.preventDefault();
+      element.scrollIntoView({
+        // CSS `scroll-behavior` is bypassed by scrollIntoView, so the  reduced-motion preference has to be honoured explicitly here
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "auto"
+          : "smooth",
+        block: "start",
+      });
+      window.history.pushState(null, "", `#${id}`);
+      closeMenu();
+    }
+  };
+
+  const handleIconClick = (event: MouseEvent<HTMLAnchorElement>) =>
+    handleScroll(event, "naslovna");
 
   // Listening on clicks only when the menu is open
   useEffect(() => {
     if (!isMenuOpen) return;
 
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: globalThis.MouseEvent) => {
       if (
         menuRef.current &&
         !menuRef.current.contains(event.target as Node) &&
@@ -36,109 +83,56 @@ export const Navbar: FC = () => {
 
     document.addEventListener("click", handleClickOutside, { passive: true });
     document.addEventListener("keydown", handleKeyDown);
+
     return () => {
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isMenuOpen]);
 
-  const handleScroll = (
-    event: React.MouseEvent<HTMLAnchorElement>,
-    id: "home" | "about" | "products" | "contact",
-  ) => {
-    const element = document.getElementById(id);
-
-    if (element) {
-      event.preventDefault();
-      element.scrollIntoView({
-        // CSS `scroll-behavior` is bypassed by scrollIntoView, so the  reduced-motion preference has to be honoured explicitly here
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "auto"
-          : "smooth",
-        block: "start",
-      });
-      window.history.pushState(null, "", `#${id}`);
-      closeMenu();
-    }
-  };
-
   return (
-    <>
-      <nav>
-        <div className="nav-logo">
-          <Link
-            href="#home"
-            onClick={(e) => handleScroll(e, "home")}
-            style={{ textDecoration: "none" }}
-            aria-label="Povratak na početnu"
-          >
-            <Image
-              src="/logo.webp"
-              alt="OPG Skočibušić logo"
-              width={48}
-              height={48}
-              sizes="48px"
-              loading="eager"
-              style={{
-                objectFit: "contain",
-                height: "48px",
-                width: "auto",
-                display: "block",
-              }}
-            />
-          </Link>
-          <div className="nav-logo-text">OPG Skočibušić</div>
-        </div>
-
-        <ul className="nav-links">
-          <li>
-            <Link href="#about" onClick={(e) => handleScroll(e, "about")}>
-              O nama
-            </Link>
-          </li>
-          <li>
-            <Link href="#products" onClick={(e) => handleScroll(e, "products")}>
-              Proizvodi
-            </Link>
-          </li>
-          <li>
-            <Link href="#contact" onClick={(e) => handleScroll(e, "contact")}>
-              Kontakt
-            </Link>
-          </li>
-        </ul>
-
-        <button
-          ref={hamburgerRef}
-          type="button"
-          className="hamburger"
-          onClick={toggleMenu}
-          aria-label={isMenuOpen ? "Zatvori izbornik" : "Otvori izbornik"}
-          aria-expanded={isMenuOpen}
-          aria-controls="mobile-menu"
+    <nav className="site-nav" aria-label="Glavni izbornik">
+      <div className="nav-logo">
+        <Link
+          href={isHome ? "#naslovna" : "/"}
+          onClick={handleIconClick}
+          style={{ textDecoration: "none" }}
+          aria-label="Povratak na početnu"
         >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div
-        ref={menuRef}
-        id="mobile-menu"
-        className={`mobile-menu ${isMenuOpen ? "open" : ""}`}
-      >
-        <Link href="#about" onClick={(e) => handleScroll(e, "about")}>
-          O nama
+          <Image
+            src="/logo.webp"
+            alt="OPG Skočibušić logo"
+            width={48}
+            height={48}
+            sizes="48px"
+            loading="eager"
+            style={{
+              objectFit: "contain",
+              height: "48px",
+              width: "auto",
+              display: "block",
+            }}
+          />
         </Link>
-        <Link href="#products" onClick={(e) => handleScroll(e, "products")}>
-          Proizvodi
-        </Link>
-        <Link href="#contact" onClick={(e) => handleScroll(e, "contact")}>
-          Kontakt
-        </Link>
+        <div className="nav-logo-text">OPG Skočibušić</div>
       </div>
-    </>
+
+      <NavbarDesktop
+        onCatalog={onCatalog}
+        sectionHref={sectionHref}
+        onSectionClick={handleScroll}
+      />
+
+      <NavbarMobile
+        onCatalog={onCatalog}
+        isOpen={isMenuOpen}
+        menuRef={menuRef}
+        hamburgerRef={hamburgerRef}
+        sectionHref={sectionHref}
+        onSectionClick={handleScroll}
+        onToggle={toggleMenu}
+        onClose={closeMenu}
+      />
+    </nav>
   );
 };

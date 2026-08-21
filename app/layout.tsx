@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { business, siteUrl } from "./site";
-import { productsData } from "./data";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -10,11 +9,15 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const title = `${business.tagline} - ${business.name}`;
+const title = `${business.tagline} — ${business.name}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl), // Required for canonical and Open Graph URLs to resolve to absolute paths
-  title,
+  // Subpages set a bare title; the template appends the brand to it
+  title: {
+    default: title,
+    template: `%s — ${business.name}`,
+  },
   description: business.description,
   keywords: [
     "OPG",
@@ -38,12 +41,18 @@ export const metadata: Metadata = {
     locale: "hr_HR",
     url: "/",
     siteName: business.name,
-    title,
+    title: {
+      default: title,
+      template: `%s — ${business.name}`,
+    },
     description: business.description,
   },
   twitter: {
     card: "summary_large_image",
-    title,
+    title: {
+      default: title,
+      template: `%s — ${business.name}`,
+    },
     description: business.description,
   },
   robots: {
@@ -61,54 +70,6 @@ export const metadata: Metadata = {
   },
 };
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  additionalType: "https://schema.org/Farm",
-  "@id": `${siteUrl}/#business`,
-  name: business.name,
-  legalName: business.legalName,
-  description: business.description,
-  url: siteUrl,
-  telephone: business.phone,
-  email: business.email,
-  image: `${siteUrl}/opengraph-image.jpg`,
-  // The apple icon rather than favicon.ico: structured-data consumers want a  real raster image, and this one has an opaque background
-  logo: `${siteUrl}/apple-icon.png`,
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: business.locality,
-    addressRegion: business.region,
-    addressCountry: business.country,
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: business.latitude,
-    longitude: business.longitude,
-  },
-  areaServed: {
-    "@type": "AdministrativeArea",
-    name: business.region,
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Naši proizvodi",
-    itemListElement: productsData.map((product) => ({
-      "@type": "Offer",
-      availability:
-        product.tag === "Dostupno"
-          ? "https://schema.org/InStock"
-          : "https://schema.org/PreOrder",
-      itemOffered: {
-        "@type": "Product",
-        name: product.title,
-        description: product.desc,
-        image: `${siteUrl}${product.img}`,
-      },
-    })),
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -116,13 +77,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="hr" className={inter.variable}>
-      <body>
-        {children}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
