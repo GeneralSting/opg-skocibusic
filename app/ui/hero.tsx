@@ -2,14 +2,13 @@ import { FC } from "react";
 import Image from "next/image";
 
 const Hero: FC = () => (
-  <section id="home">
+  <section id="naslovna">
     <Image
       src="/hero-bg.webp"
       alt="OPG Skočibušić pozadina polja"
       fill
-      priority
-      fetchPriority="high"
-      quality={50}
+      preload // The LCP element: `preload` replaces the deprecated `priority` prop
+      quality={70}
       sizes="100vw"
       className="hero-bg-image"
     />
@@ -21,13 +20,14 @@ const Hero: FC = () => (
         <em>Skočibušić</em>
       </h1>
       <p className="home-subtitle">
-        Adresa domaće hrane - plodovi uzgojeni u skladu s prirodom i tradicijom
+        Adresa domaće hrane i usluge - plodovi uzgojeni u skladu s prirodom i
+        tradicijom
       </p>
       <div className="home-buttons">
-        <a href="#products" className="btn btn-primary">
-          Pregled proizvoda
+        <a href="#djelatnosti" className="btn btn-primary">
+          Pregled ponude
         </a>
-        <a href="#contact" className="btn btn-outline">
+        <a href="#kontakt" className="btn btn-outline">
           Kontakt
         </a>
       </div>

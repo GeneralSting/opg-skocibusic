@@ -5,7 +5,12 @@ export default function Footer() {
     <footer className="footer-compact">
       <div className="container footer-flex">
         <div className="footer-brand-slim">
-          <Image src="/logo.webp" alt="Logo" width={48} height={48} />
+          <Image
+            src="/logo.webp"
+            alt="OPG Skočibušić logo"
+            width={48}
+            height={48}
+          />
           <span>OPG Skočibušić</span>
         </div>
 
@@ -13,6 +18,7 @@ export default function Footer() {
         <div className="footer-icons-slim">
           <a
             href="tel:+385914345249"
+            rel="nofollow"
             style={{ display: "flex", alignItems: "center" }}
           >
             <div
@@ -29,7 +35,7 @@ export default function Footer() {
             >
               <Image
                 src="/contact/call.png"
-                alt="Call"
+                alt="Pozovite nas"
                 width={24}
                 height={24}
                 style={{ objectFit: "contain" }}
@@ -40,7 +46,7 @@ export default function Footer() {
           <a
             href="https://facebook.com/placeholder"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="nofollow noopener noreferrer"
           >
             <Image
               src="/contact/facebook.png"
@@ -52,7 +58,7 @@ export default function Footer() {
           <a
             href="https://wa.me/385914345249"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="nofollow noopener noreferrer"
           >
             <Image
               src="/contact/whatsapp.png"
@@ -61,10 +67,10 @@ export default function Footer() {
               height={32}
             />
           </a>
-          <a href="mailto:drskocibusic@gmail.com">
+          <a href="mailto:drskocibusic@gmail.com" rel="nofollow">
             <Image
               src="/contact/gmail.png"
-              alt="Gmail"
+              alt="Pošaljite e-mail"
               width={32}
               height={32}
             />
