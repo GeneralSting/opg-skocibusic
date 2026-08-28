@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Contact() {
   return (
-    <section id="contact">
+    <section id="kontakt">
       <div className="container">
         <div className="contact-grid">
           <div>
@@ -14,7 +14,11 @@ export default function Contact() {
             </p>
 
             <div className="contact-cards">
-              <a className="contact-card" href="tel:+385914345249">
+              <a
+                className="contact-card"
+                href="tel:+385914345249"
+                rel="nofollow"
+              >
                 <Image
                   src="/contact/call.png"
                   alt="Mobitel"
@@ -31,7 +35,7 @@ export default function Contact() {
                 className="contact-card"
                 href="https://wa.me/385914345249"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
               >
                 <Image
                   src="/contact/whatsapp.png"
@@ -49,7 +53,7 @@ export default function Contact() {
                 className="contact-card"
                 href="https://facebook.com/placeholder"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
               >
                 <Image
                   src="/contact/facebook.png"
@@ -63,7 +67,11 @@ export default function Contact() {
                 </div>
               </a>
 
-              <a className="contact-card" href="mailto:drskocibusic@gmail.com">
+              <a
+                className="contact-card"
+                href="mailto:drskocibusic@gmail.com"
+                rel="nofollow"
+              >
                 <Image
                   src="/contact/gmail.png"
                   alt="Email"

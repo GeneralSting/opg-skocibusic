@@ -35,7 +35,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
-  // No `icons` field: app/icon.tsx and app/apple-icon.tsx are file conventions, so Next emits the links with correct type and size attributes itself
+  /**
+   * No `icons` field: app/icon.tsx and app/apple-icon.tsx are file convertions, so Next emits the link
+   * with correct type and size attributes itself
+   */
   openGraph: {
     type: "website",
     locale: "hr_HR",
@@ -70,14 +73,34 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Decides whether the navbar starts transparent, before anything is painted
+ *
+ * This cannot be rendered: the server has no way of knowing the scroll offset,
+ * so any value it picks is wrong half the time and the bar corrects itself in
+ * view. The class goes on <html> so React never owns it — hence
+ * `suppressHydrationWarning` below.
+ *
+ * It runs twice on purpose. The first call covers a normal load, where the
+ * page starts at the top. The second waits a frame because a reload restores
+ * the previous scroll offset only after the document is parsed: measured on
+ * this page, an inline script reads `scrollY` as 0 while the first animation
+ * frame already reads the restored 1500 — and that frame still lands before
+ * the first paint.
+ */
+const navBootScript = `(function(){var d=document.documentElement;function s(){d.classList.toggle("nav-at-top",location.pathname==="/"&&window.scrollY<=40)}s();requestAnimationFrame(s)})()`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="hr" className={inter.variable}>
-      <body>{children}</body>
+    <html lang="hr" className={inter.variable} suppressHydrationWarning>
+      <body>
+        <script dangerouslySetInnerHTML={{ __html: navBootScript }} />
+        {children}
+      </body>
     </html>
   );
 }

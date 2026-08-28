@@ -4,7 +4,7 @@ import { aboutImages } from "../data";
 
 export default function About() {
   return (
-    <section id="about">
+    <section id="o-nama">
       <div className="container">
         <div className="about-layout">
           {/* Client Component - only the slider */}

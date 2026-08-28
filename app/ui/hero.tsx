@@ -2,7 +2,7 @@ import { FC } from "react";
 import Image from "next/image";
 
 const Hero: FC = () => (
-  <section id="home">
+  <section id="naslovna">
     <Image
       src="/hero-bg.webp"
       alt="OPG Skočibušić pozadina polja"
@@ -27,7 +27,7 @@ const Hero: FC = () => (
         <a href="#djelatnosti" className="btn btn-primary">
           Pregled ponude
         </a>
-        <a href="#contact" className="btn btn-outline">
+        <a href="#kontakt" className="btn btn-outline">
           Kontakt
         </a>
       </div>
