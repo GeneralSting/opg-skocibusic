@@ -8,6 +8,7 @@ import { CATALOG_HREF } from "../data";
 import { NavbarSectionId } from "../types";
 import { NavbarDesktop } from "./navbar-desktop";
 import { NavbarMobile } from "./navbar-mobile";
+import { useNavScroll } from "./use-nav-scroll";
 
 /**
  * Site Navigation
@@ -26,6 +27,9 @@ export const Navbar: FC = () => {
   // Everywhere else they navigate home first, which Next handles for us
   const isHome = pathname === "/";
   const onCatalog = pathname.startsWith(CATALOG_HREF);
+
+  // Only the home page has sections to track; elsewhere the bar stays solid
+  const { activeSection, lockTo } = useNavScroll(isHome);
 
   const sectionHref = (id: NavbarSectionId) => (isHome ? `#${id}` : `/#${id}`);
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
@@ -51,6 +55,9 @@ export const Navbar: FC = () => {
           : "smooth",
         block: "start",
       });
+      // Claim the highlight now and hold it for the whole smooth scroll,
+      // instead of letting each section it passes flash its underline
+      lockTo(id);
       window.history.pushState(null, "", `#${id}`);
       closeMenu();
     }
@@ -119,12 +126,14 @@ export const Navbar: FC = () => {
 
       <NavbarDesktop
         onCatalog={onCatalog}
+        activeSection={activeSection}
         sectionHref={sectionHref}
         onSectionClick={handleScroll}
       />
 
       <NavbarMobile
         onCatalog={onCatalog}
+        activeSection={activeSection}
         isOpen={isMenuOpen}
         menuRef={menuRef}
         hamburgerRef={hamburgerRef}

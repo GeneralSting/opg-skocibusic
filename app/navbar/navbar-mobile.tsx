@@ -1,19 +1,11 @@
 import Link from "next/link";
-import { FC, RefObject } from "react";
+import { FC } from "react";
 import {
   CATALOG_HREF,
   NAVBAR_SECTIONS,
   PRODUCTS_AND_SERVICES_NAV,
 } from "../data";
-import { NavbarDesktopProps } from "../types";
-
-type NavbarMobileProps = NavbarDesktopProps & {
-  menuRef: RefObject<HTMLDivElement | null>; // Owned by Navbar, which needs to detect clicks outside the menu
-  hamburgerRef: RefObject<HTMLButtonElement | null>; // Owned by Navbar, which needs to detect clicks outside the menu
-  isOpen: boolean;
-  onToggle: () => void;
-  onClose: () => void;
-};
+import { NavbarMobileProps } from "./types";
 
 /**
  * Narrow-viewport navigation: the hamburger and the panel it opens
@@ -21,10 +13,11 @@ type NavbarMobileProps = NavbarDesktopProps & {
  *
  * The panel is `position: fixed`, so sitting inside the `<nav>` costs it
  * nothing in layout terms while putting its links in the navigation landmark,
- * where a screen reader expects to find them.
+ * where a screen reader expects to find them
  */
 export const NavbarMobile: FC<NavbarMobileProps> = ({
   onCatalog,
+  activeSection,
   isOpen,
   menuRef,
   hamburgerRef,
@@ -57,6 +50,8 @@ export const NavbarMobile: FC<NavbarMobileProps> = ({
         <Link
           key={section.id}
           href={sectionHref(section.id)}
+          className={section.id === activeSection ? "is-current" : undefined}
+          aria-current={section.id === activeSection ? "location" : undefined}
           onClick={(event) => onSectionClick(event, section.id)}
         >
           {section.label}

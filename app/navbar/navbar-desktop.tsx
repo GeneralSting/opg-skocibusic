@@ -5,7 +5,7 @@ import {
   NAVBAR_SECTIONS,
   PRODUCTS_AND_SERVICES_NAV,
 } from "../data";
-import { NavbarDesktopProps } from "../types";
+import { NavbarDesktopProps } from "./types";
 
 /**
  * Wide-viewport navigation: the section links laid out in the bar itself
@@ -13,6 +13,7 @@ import { NavbarDesktopProps } from "../types";
  */
 export const NavbarDesktop: FC<NavbarDesktopProps> = ({
   onCatalog,
+  activeSection,
   sectionHref,
   onSectionClick,
 }) => (
@@ -21,6 +22,10 @@ export const NavbarDesktop: FC<NavbarDesktopProps> = ({
       <li key={section.id}>
         <Link
           href={sectionHref(section.id)}
+          className={section.id === activeSection ? "is-current" : undefined}
+          // "location", not "page": this marks a position inside the current
+          // document, which is what the catalogue pill uses "page" for
+          aria-current={section.id === activeSection ? "location" : undefined}
           onClick={(event) => onSectionClick(event, section.id)}
         >
           {section.label}
