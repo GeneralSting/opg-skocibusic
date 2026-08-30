@@ -78,6 +78,8 @@ export default function Footer() {
         </div>
 
         {/* SEKCIJA 3: Copyright */}
+        {/* Baked in at build time, since the page is fully static. It rolls
+            over on the next deploy, not on new year's eve */}
         <div className="footer-copy-slim">
           © {new Date().getFullYear()} Sva prava pridržana.
         </div>

@@ -8,7 +8,7 @@ import {
 } from "./data";
 import { Band, SectionBox } from "./types";
 
-/** The hero has no nav item of its own, so it leads by clearing the highlight */
+// The hero has no nav item of its own, so it leads by clearing the highlight
 export const highlightFor = (id: NavbarSectionId | null) =>
   id === HOME_SECTION_IDS[0] ? null : id;
 
@@ -52,7 +52,7 @@ export function shareOfBand(box: SectionBox, band: Band): number {
   return Math.max(0, overlap) / band.height;
 }
 
-/** The section covering most of the band. Ties go to the one higher up the page */
+// The section covering most of the band. Ties go to the one higher up the page
 export function leadingSection(boxes: SectionBox[], band: Band) {
   let leader: { id: NavbarSectionId; share: number } | null = null;
 
@@ -64,7 +64,7 @@ export function leadingSection(boxes: SectionBox[], band: Band) {
   return leader;
 }
 
-/** What the section holding the highlight covers right now, 0 if it has gone */
+// What the section holding the highlight covers right now, 0 if it has gone
 export function shareOfSection(
   boxes: SectionBox[],
   id: NavbarSectionId | null,

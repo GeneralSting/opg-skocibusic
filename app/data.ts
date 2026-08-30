@@ -47,6 +47,8 @@ export const aboutImages: AboutImage[] = [
   },
 ];
 
+export const MISSING_IMAGE_TEXT = "Fotografija dolazi";
+
 export const PRODUCTS_AND_SERVICES_PATH = "proizvodi-i-usluge";
 export const PRODUCTS_AND_SERVICES_NAV = "Proizvodi / Usluge";
 
@@ -54,6 +56,11 @@ export const CATALOG_HREF = `/${PRODUCTS_AND_SERVICES_PATH}`; // Catalogue route
 
 /**
  * Every section on the home page, top to bottom
+ *
+ * Each id must match the `id` on the matching <section>. They drive the anchor
+ * links, and app/navbar/use-nav-scroll.ts measures those elements to decide
+ * which nav item is highlighted — a mismatch fails silently, as a dead link and
+ * a nav item that never lights up
  *
  * The hero is in here even though it has no nav item: the scroll tracking
  * compares all four, and the hero has to be able to win so that nothing is

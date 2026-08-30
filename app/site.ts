@@ -83,6 +83,9 @@ export const business = {
   phoneDisplay: "+385 91 434 5249",
   email: "drskocibusic@gmail.com",
   whatsapp: "https://wa.me/385914345249",
+  // Still a placeholder, and deliberately left out of the JSON-LD `sameAs` in
+  // app/schema.ts: publishing a fake profile URL to Google is worse than
+  // publishing none. Add it there once the real page exists
   facebook: "https://facebook.com/placeholder",
   street: "Kolodvorska 129",
   postalCode: "31402",

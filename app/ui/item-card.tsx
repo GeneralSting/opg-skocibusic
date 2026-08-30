@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { itemPath } from "../utilities";
 import { CatalogItem } from "../types";
+import { MISSING_IMAGE_TEXT } from "../data";
 
 /**
  * Rendered width of one `.items-grid` cell, used by the listing and the
@@ -39,7 +40,7 @@ export const ItemCard: FC<{ item: CatalogItem; sizes: string }> = ({
           style={{ objectFit: "cover" }}
         />
       ) : (
-        <span className="photo-pending">Potrebna fotografija</span>
+        <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
       )}
     </div>
 

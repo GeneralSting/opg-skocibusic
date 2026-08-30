@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { branches } from "../data";
+import { branches, MISSING_IMAGE_TEXT } from "../data";
 import { ItemCard } from "./item-card";
 
 export default function Branches() {
@@ -89,7 +89,7 @@ export default function Branches() {
                     style={{ objectFit: "cover" }}
                   />
                 ) : (
-                  <span className="photo-pending">Potrebna fotografija</span>
+                  <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
                 )}
               </div>
               <div className="branch-card-body">

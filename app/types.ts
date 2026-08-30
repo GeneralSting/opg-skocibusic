@@ -18,7 +18,7 @@ export type CatalogItem = {
   seoTitle: string;
   desc: string;
   tag: Availability;
-  img: string; // Empty string renders a "Potrebna fotografija" placeholder
+  img: string; // Empty string renders a "Fotografija dolazi" placeholder
   lead: string;
   bullets: string[];
   availability: string;

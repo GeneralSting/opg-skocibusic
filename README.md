@@ -15,12 +15,14 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Scripts
 
-| Command      | Description                |
-| ------------ | -------------------------- |
-| `pnpm dev`   | Start the dev server       |
-| `pnpm build` | Production build           |
-| `pnpm start` | Serve the production build |
-| `pnpm lint`  | Run ESLint                 |
+| Command           | Description                |
+| ----------------- | -------------------------- |
+| `pnpm dev`        | Start the dev server       |
+| `pnpm build`      | Production build           |
+| `pnpm start`      | Serve the production build |
+| `pnpm lint`       | Run ESLint                 |
+| `pnpm test`       | Run the tests once         |
+| `pnpm test:watch` | Run them in watch mode     |
 
 ## Configuration
 
@@ -34,29 +36,39 @@ local development needs no setup.
 
 ```
 app/
-  layout.tsx        Root layout and site-wide metadata
-  page.tsx          Home page: hero, about, djelatnosti, contact
+  layout.tsx                    Root layout, site-wide metadata, pre-paint nav script
+  page.tsx                      Home page: hero, about, djelatnosti, contact
   proizvodi-i-usluge/
-    page.tsx        Catalogue listing, grouped by line of business
-    opengraph-image.tsx    Share card for the listing
-    [id]/page.tsx          One prerendered detail page per catalogue item
-    [id]/opengraph-image.tsx  Share card per item
-  site.ts           Canonical URL, business details, social-tag helper
-  utilities.ts      Catalogue lookups and route helpers
-  schema.ts         JSON-LD builders (see Structured data)
-  og-card.tsx       Shared layout for the generated share cards
-  navbar/           Navigation feature: components, scroll hook, utilities, types
-  data.ts           All content: catalogue, gallery photos, nav sections
-  types.ts          Shared content types
-  globals.css       All styling
-  robots.ts         robots.txt
-  sitemap.ts        sitemap.xml — home, listing, and every item
-  favicon.ico       Browser tab icon
-  apple-icon.png    iOS home-screen icon (180x180)
-  opengraph-image.jpg      Home page share image (1200x630)
-  opengraph-image.alt.txt  Alt text for it
-  ui/               Section and shared components
-public/             Images, served from /
+    page.tsx                    Catalogue listing, grouped by line of business
+    opengraph-image.tsx         Share card for the listing
+    [id]/page.tsx               One prerendered detail page per catalogue item
+    [id]/opengraph-image.tsx    Share card per item
+  navbar/                       Navigation feature
+    navbar.tsx                  Open/closed state, scroll handlers, the single <nav>
+    navbar-desktop.tsx          Wide-viewport links
+    navbar-mobile.tsx           Hamburger and the panel it opens
+    use-nav-scroll.ts           Active section and transparent-bar state
+    utilities.ts                Scroll geometry, all of it pure
+    utilities.test.ts           Scroll maths and threshold guards
+    data.ts                     Thresholds and tuning constants
+    types.ts                    Props and geometry types
+    index.ts                    Public export
+  ui/                           Page sections and shared components
+  data.ts                       All content: catalogue, gallery photos, nav sections
+  data.test.ts                  Content and structured-data guards
+  utilities.ts                  Catalogue lookups and route helpers
+  schema.ts                     JSON-LD builders (see Structured data)
+  site.ts                       Canonical URL, business details, social-tag helper
+  og-card.tsx                   Shared layout for the generated share cards
+  types.ts                      Shared content types
+  globals.css                   All styling
+  robots.ts                     robots.txt
+  sitemap.ts                    sitemap.xml — home, listing, and every item
+  favicon.ico                   Browser tab icon
+  apple-icon.png                iOS home-screen icon (180x180)
+  opengraph-image.jpg           Home page share image (1200x630)
+  opengraph-image.alt.txt       Alt text for it
+public/                         Images, served from /
 ```
 
 ## Content
@@ -65,7 +77,7 @@ public/             Images, served from /
 its items, and adding an item there is enough to give it a card on the home page,
 an entry in the listing, a prerendered detail page, a generated share card, a
 sitemap URL and a place in the `LocalBusiness` offer catalogue. An item with
-`img: ""` renders a "Potrebna fotografija" placeholder rather than breaking the
+`img: ""` renders a "Fotografija dolazi" placeholder rather than breaking the
 layout.
 
 `title` is the on-page `<h1>`; `seoTitle` is the longer variant used for
@@ -101,9 +113,9 @@ Content changes (products, gallery photos, availability) live in
 
 | Page    | Graph                                                          |
 | ------- | -------------------------------------------------------------- |
-| Home    | `LocalBusiness`/`Farm` with the full offer catalogue             |
-| Listing | business stub, `CollectionPage` + `ItemList`, `BreadcrumbList`   |
-| Item    | business stub, `Product` or `Service`, `BreadcrumbList`          |
+| Home    | `LocalBusiness`/`Farm` with the full offer catalogue           |
+| Listing | business stub, `CollectionPage` + `ItemList`, `BreadcrumbList` |
+| Item    | business stub, `Product` or `Service`, `BreadcrumbList`        |
 
 The farm is described in full on the home page only. Everywhere else it appears
 as a stub carrying the same `@id`, which is enough for `seller` and `provider`
@@ -114,46 +126,25 @@ Offers deliberately carry no `price` — nothing is sold online and prices are
 agreed by phone. Google reports the missing price in the Rich Results Test; the
 markup is there for entity understanding, not price snippets.
 
-## Notes
+## Tests
 
-- Images are optimised by `next/image`. Allowed `quality` values are declared in
-  [`next.config.ts`](next.config.ts) — Next.js 16 coerces any value not in
-  `images.qualities` to the nearest allowed one, so a new `quality` prop needs
-  to be added there too.
-- Only the hero image uses `preload`; it is the LCP element. Note that React 19
-  also emits a preload for any `<img>` that is not `loading="lazy"`, so
-  below-the-fold images must stay lazy or they will compete with the hero.
-- One product image is remote (Unsplash); its host is allowlisted under
-  `images.remotePatterns`. Remote images need their host added there.
-- `sizes` on the gallery and product images describes the real rendered width,
-  not a viewport fraction — `.container` caps at 1100px, so those columns stop
-  growing at 486px and 345px. If that layout changes, update `sizes` too.
-- The ids in `HOME_SECTION_IDS` must match the `id` on each home-page
-  `<section>`. They drive the anchor links, and
-  [`app/navbar/use-nav-scroll.ts`](app/navbar/use-nav-scroll.ts) measures those
-  elements to decide which nav item is highlighted — a mismatch fails silently,
-  as a dead link and a nav item that never lights up.
-- The footer's copyright year is baked in at build time, since the page is fully
-  static. It updates on the next deploy.
-- Every route generates its own Open Graph card from
-  [`app/og-card.tsx`](app/og-card.tsx), so no two pages share a preview image.
-  An item with a photo gets a photographic card; one still waiting for a photo
-  gets the typographic layout and upgrades itself when the photo lands. They use
-  @vercel/og's bundled Geist font, which has only one weight — hierarchy comes
-  from size and colour.
-- Satori, which rasterises those cards, cannot decode WebP and throws on it, so
-  the photos are pulled through Next's own image optimiser with an
-  `accept: image/jpeg` header rather than read off disk. That is also what
-  resizes them, keeping each card's payload near 100KB against @vercel/og's
-  500KB budget. Any failure falls back to the typographic card.
-- `internalOrigin` in [`app/site.ts`](app/site.ts) is what those cards call, and
-  it is deliberately not `siteUrl`: the optimiser only has to be reached, not
-  linked to, so it targets the running instance rather than the canonical
-  domain.
-- Cards on dynamic routes are rendered on first request and cached, not built
-  ahead of time. Next 16.2.4 fails to build if an `opengraph-image` route
-  exports `generateStaticParams`, and `dynamic = "force-static"` does not
-  prerender them either.
-- `business.facebook` is still a placeholder. It is intentionally left out of
-  the JSON-LD `sameAs`: publishing a fake profile URL to Google is worse than
-  publishing none. Add it there once the real page exists.
+Deliberately narrow. `pnpm build` prerenders all 22 pages, so a broken route or
+a type error already fails the build, and anything visually wrong is obvious on
+the page. The tests cover only what passes the build, looks right in the
+browser, and is still wrong:
+
+[`app/data.test.ts`](app/data.test.ts) guards the content, since
+[`app/data.ts`](app/data.ts) is the file that keeps being edited. Duplicate item
+ids (two items sharing one route, the second losing its page), ids that are not
+URL-safe slugs, `seoTitle` past the length Google truncates at, image paths with
+no file behind them, and `HOME_SECTION_IDS` drifting from the `<section id>`
+values written by hand in the JSX. It also walks each page's JSON-LD and checks
+every bare `{ "@id": ... }` pointer lands on a node the same graph defines — a
+dangling one is dropped silently by Google.
+
+[`app/navbar/utilities.test.ts`](app/navbar/utilities.test.ts) covers the scroll
+maths. The thresholds in [`app/navbar/data.ts`](app/navbar/data.ts) were tuned
+against a real browser, and the tests freeze that result: the transparent-bar
+hysteresis, and a jittering scroll through a section handover that has to flip
+the highlight exactly once. Drop `SWITCH_MARGIN` to zero and that walk flips 15
+times, which is the flicker the margin exists to prevent.

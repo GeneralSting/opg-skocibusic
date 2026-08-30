@@ -7,7 +7,7 @@ import Footer from "../../ui/footer";
 import { Breadcrumbs } from "../../ui/breadcrumbs";
 import { ItemCard, AvailabilityTag, GRID_CARD_SIZES } from "../../ui/item-card";
 import { JsonLd } from "../../ui/json-ld";
-import { allItems } from "../../data";
+import { allItems, MISSING_IMAGE_TEXT } from "../../data";
 import { findItem, itemPath } from "../../utilities";
 import { business, siteUrl, socialMeta } from "../../site";
 import {
@@ -74,7 +74,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
                   />
                 ) : (
                   <div className="photo-pending-block">
-                    <span className="photo-pending">Potrebna fotografija</span>
+                    <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
                     <span>{item.title}</span>
                   </div>
                 )}
