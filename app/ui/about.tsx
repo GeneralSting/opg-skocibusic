@@ -11,7 +11,7 @@ export default function About() {
           <ImageSlider images={aboutImages} />
 
           {/* Server Component - static content */}
-          <div className="about-content">
+          <div className="about-content" data-reveal="right">
             <div className="section-label">O nama</div>
             <h2 className="section-title">Malo gospodarstvo Velika pažnja</h2>
             <p className="section-desc">

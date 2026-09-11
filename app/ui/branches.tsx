@@ -59,7 +59,7 @@ export default function Branches() {
   return (
     <section id="djelatnosti">
       <div className="container">
-        <div className="branches-header">
+        <div className="branches-header" data-reveal="stagger">
           <div className="section-label">Djelatnosti</div>
           <h2 className="section-title">Četiri grane jednog gospodarstva</h2>
           <p className="section-desc">
@@ -69,7 +69,7 @@ export default function Branches() {
           </p>
         </div>
 
-        <div className="branches-grid">
+        <div className="branches-grid" data-reveal="stagger">
           {branches.map((branch) => (
             <button
               key={branch.id}
@@ -105,7 +105,7 @@ export default function Branches() {
           ))}
         </div>
 
-        <div className="branches-footer">
+        <div className="branches-footer" data-reveal="up">
           <Link href="/proizvodi-i-usluge" className="btn btn-primary">
             Svi proizvodi i usluge
           </Link>

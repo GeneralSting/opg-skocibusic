@@ -13,7 +13,7 @@ export default function Contact() {
               nas direktno putem mobitela ili društvenih mreža.
             </p>
 
-            <div className="contact-cards">
+            <div className="contact-cards" data-reveal="stagger-left">
               <a
                 className="contact-card"
                 href="tel:+385914345249"

@@ -13,7 +13,7 @@ const Hero: FC = () => (
       className="hero-bg-image"
     />
 
-    <div className="hero-content">
+    <div className="hero-content" data-enter="stagger">
       <h1>
         OPG
         <br />

@@ -1,5 +1,7 @@
 export const NAV_HEIGHT = 70; // Height of the fixed navbar
 
+export const MOBILE_MEDIA_QUERY = "(max-width: 768px)";
+
 /**
  * How far ahead a section must be before it takes over. Without it the two
  * sections sharing the screen sit within a point or two of each other at the

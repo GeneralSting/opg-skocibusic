@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef, FC, MouseEvent } from "react";
 import { CATALOG_HREF } from "../data";
 import { NavbarSectionId } from "../types";
+import { MOBILE_MEDIA_QUERY } from "./data";
 import { NavbarDesktop } from "./navbar-desktop";
 import { NavbarMobile } from "./navbar-mobile";
 import { useNavScroll } from "./use-nav-scroll";
@@ -70,6 +71,8 @@ export const Navbar: FC = () => {
   useEffect(() => {
     if (!isMenuOpen) return;
 
+    const mobileLayout = window.matchMedia(MOBILE_MEDIA_QUERY);
+
     const handleClickOutside = (event: globalThis.MouseEvent) => {
       if (
         menuRef.current &&
@@ -88,12 +91,18 @@ export const Navbar: FC = () => {
       }
     };
 
+    const handleLayoutChange = () => {
+      if (!mobileLayout.matches) closeMenu();
+    };
+
     document.addEventListener("click", handleClickOutside, { passive: true });
     document.addEventListener("keydown", handleKeyDown);
+    mobileLayout.addEventListener("change", handleLayoutChange);
 
     return () => {
       document.removeEventListener("click", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
+      mobileLayout.removeEventListener("change", handleLayoutChange);
     };
   }, [isMenuOpen]);
 

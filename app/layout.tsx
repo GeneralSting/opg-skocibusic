@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { business, siteUrl } from "./site";
+import { ScrollReveal } from "./ui/scroll-reveal";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -100,6 +101,7 @@ export default function RootLayout({
       <body>
         <script dangerouslySetInnerHTML={{ __html: navBootScript }} />
         {children}
+        <ScrollReveal />
       </body>
     </html>
   );

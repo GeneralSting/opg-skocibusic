@@ -136,6 +136,7 @@ export default function ImageSlider({ images }: ImageSliderProps) {
   return (
     <div
       className="slider-container"
+      data-reveal="left"
       role="group"
       aria-roledescription="karusel"
       aria-label="Fotografije gospodarstva"
