@@ -73,12 +73,12 @@ export function socialMeta({
 export const business = {
   name: "OPG Skočibušić",
   legalName: "OPG Skočibušić Mario",
-  // Feeds the home page <title>, which the brand suffix pushes to 55 chars
-  tagline: "Domaći proizvodi i usluge iz Slavonije",
+  // Feeds the home page <title>, which the brand suffix pushes to 58 chars
+  tagline: "Domaća hrana i usluge, Koritna i Semeljci",
   // Feeds <meta name="description">, og:description and twitter:description
   // Keep it under ~160 characters or Google truncates it in results
   description:
-    "Domaći proizvodi i poljoprivredne usluge OPG-a Skočibušić iz Koritne: meso, svježa jaja, povrće i presadnice. Okusi tradicije iz srca Slavonije, bez aditiva.",
+    "OPG Skočibušić iz Koritne u općini Semeljci: domaće meso, jaja i povrće s plodne slavonske zemlje te košnja, krčenje i strojni radovi u ratarstvu.",
   phone: "+385914345249",
   phoneDisplay: "+385 91 434 5249",
   email: "drskocibusic@gmail.com",
@@ -90,7 +90,8 @@ export const business = {
   street: "Kolodvorska 129",
   postalCode: "31402",
   locality: "Koritna",
-  region: "Slavonija",
+  municipality: "Općina Semeljci",
+  county: "Osječko-baranjska županija",
   country: "HR",
   latitude: 45.391542,
   longitude: 18.557852,

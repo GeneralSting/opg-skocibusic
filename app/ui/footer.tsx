@@ -21,26 +21,13 @@ export default function Footer() {
             rel="nofollow"
             style={{ display: "flex", alignItems: "center" }}
           >
-            <div
-              style={{
-                backgroundColor: "white",
-                width: "32px", // Fiksna širina kruga
-                height: "32px", // Fiksna visina kruga
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexShrink: 0,
-              }}
-            >
-              <Image
-                src="/contact/call.png"
-                alt="Pozovite nas"
-                width={24}
-                height={24}
-                style={{ objectFit: "contain" }}
-              />
-            </div>
+            <Image
+              src="/contact/call.png"
+              alt="Pozovite nas"
+              width={32}
+              height={32}
+              style={{ objectFit: "contain" }}
+            />
           </a>
 
           <a

@@ -16,7 +16,7 @@ import {
 
 const title = "Proizvodi i usluge";
 const description =
-  "Cjelovita ponuda OPG-a Skočibušić: meso, jaja i hrana za stoku, povrće i presadnice, biljni terariji te usluge košnje, krčenja i rada strojevima.";
+  "Cjelovita ponuda OPG-a Skočibušić iz Koritne: meso, jaja i hrana za stoku, povrće i presadnice, biljni terariji te usluge košnje, krčenja i rada strojevima.";
 const path = "/proizvodi-i-usluge";
 
 export const metadata: Metadata = {

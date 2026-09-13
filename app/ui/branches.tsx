@@ -61,11 +61,14 @@ export default function Branches() {
       <div className="container">
         <div className="branches-header" data-reveal="stagger">
           <div className="section-label">Djelatnosti</div>
-          <h2 className="section-title">Četiri grane jednog gospodarstva</h2>
+          <h2 className="section-title">
+            <span>Jedno gospodarstvo,</span> <span>četiri djelatnosti</span>
+          </h2>
           <p className="section-desc">
-            Posao je s godinama izašao iz okvira klasičnog OPG-a. Danas
-            pokrivamo uzgoj, prodaju i usluge na terenu — ali svaka grana radi
-            po istom principu: prirodno, bez prečica.
+            Posao je s godinama izašao iz okvira klasičnog OPG-a. Danas se
+            bavimo uzgojem, prodajom i poljoprivrednim uslugama na području
+            Općine Semeljci, ali svaka grana počiva na istom principu: prirodno,
+            pažljivo i s poštovanjem prema onome što radimo.
           </p>
         </div>
 
@@ -93,13 +96,8 @@ export default function Branches() {
                 )}
               </div>
               <div className="branch-card-body">
-                <div className="branch-kicker">{branch.kicker}</div>
                 <h3>{branch.title}</h3>
                 <p>{branch.desc}</p>
-                <span className="branch-cta">
-                  Pogledaj {branch.items.length}{" "}
-                  {branch.id === "usluge" ? "usluge" : "proizvoda"} →
-                </span>
               </div>
             </button>
           ))}
@@ -127,7 +125,7 @@ export default function Branches() {
           >
             <div className="modal-head">
               <div>
-                <div className="branch-kicker">{openBranchData.kicker}</div>
+                <div className="branch-kicker">{openBranchData.label}</div>
                 <h3 id="branch-modal-title">{openBranchData.title}</h3>
                 <p>{openBranchData.desc}</p>
               </div>

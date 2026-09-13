@@ -35,7 +35,6 @@ export type Branch = {
    */
   kind: "product" | "service";
   num: string;
-  kicker: string;
   title: string;
   desc: string;
   img: string;

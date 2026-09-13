@@ -20,8 +20,8 @@ const Hero: FC = () => (
         <em>Skočibušić</em>
       </h1>
       <p className="home-subtitle">
-        Adresa domaće hrane i usluge - plodovi uzgojeni u skladu s prirodom i
-        tradicijom
+        <span>Adresa domaćih proizvoda i usluga - iz Koritne,</span>{" "}
+        <span>plodovi i rad u skladu s prirodom</span>
       </p>
       <div className="home-buttons">
         <a href="#djelatnosti" className="btn btn-primary">

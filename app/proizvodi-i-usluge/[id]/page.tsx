@@ -81,7 +81,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
               </div>
 
               <div>
-                <div className="section-label">{branch.kicker}</div>
+                <div className="section-label">{branch.label}</div>
                 <h1 className="detail-title">{item.title}</h1>
                 <p className="detail-lead">{item.lead}</p>
                 <AvailabilityTag tag={item.tag} />
@@ -133,7 +133,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
               <div className="fact bordered">
                 <div className="fact-label">Lokacija</div>
                 <div className="fact-value">
-                  {business.locality}, {business.region}
+                  {business.locality}, {business.municipality}
                 </div>
               </div>
               <p className="fact-note">

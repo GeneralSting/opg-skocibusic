@@ -233,7 +233,7 @@ export function ogCard({
             }}
           >
             <div style={{ display: "flex" }}>
-              {`${business.name} · ${business.locality}, ${business.region}`}
+              {`${business.name} · ${business.locality}, ${business.municipality}`}
             </div>
             <div style={{ display: "flex" }}>{business.phoneDisplay}</div>
           </div>

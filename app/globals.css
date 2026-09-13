@@ -1,7 +1,7 @@
 /* ══════════════════════════════════════════════════════════════════════════
  * SHARED
  * Anything used on more than one page. Page styles follow below, one block
- * per page, with its sections in the order they render.
+ * per page, with its sections in the order they render
  * ══════════════════════════════════════════════════════════════════════════ */
 
 /* ── BASE ── */
@@ -54,7 +54,7 @@ body {
   outline-offset: 3px;
 }
 
-/* Light ring wherever the background is dark. */
+/* Light ring wherever the background is dark */
 .site-nav :focus-visible,
 .mobile-menu :focus-visible,
 .btn-outline:focus-visible {
@@ -66,7 +66,7 @@ body {
   outline-offset: 4px;
 }
 
-/* Applied to <body> while the branch dialog is open. */
+/* Applied to <body> while the branch dialog is open */
 .scroll-locked {
   overflow: hidden;
 }
@@ -378,7 +378,7 @@ section {
 /*
  * Scoped to a class, not the bare `nav` element: the breadcrumb trail is also
  * a <nav>, and a type selector here made it position:fixed at the top of the
- * page, covering the real navbar.
+ * page, covering the real navbar
  */
 .site-nav {
   position: fixed;
@@ -408,11 +408,11 @@ section {
  * The class sits on <html>, not on the nav: it is written by the inline script
  * in app/layout.tsx before the first paint and by app/navbar/use-nav-scroll.ts
  * afterwards. Rendering it through React instead would mean the server picking
- * a value it cannot know, and the bar visibly correcting itself on load.
+ * a value it cannot know, and the bar visibly correcting itself on load
  *
  * `blur(0px)`, never `none`: any backdrop-filter value makes this element the
  * containing block for the fixed mobile menu inside it, and a containing block
- * that appears and disappears with scroll position is a trap for later.
+ * that appears and disappears with scroll position is a trap for later
  */
 html.nav-at-top .site-nav:not(:has(.mobile-menu.open)) {
   background: transparent;
@@ -464,7 +464,7 @@ html.nav-at-top .site-nav:not(:has(.mobile-menu.open)) {
 /*
  * The section the reader is looking at wears the hover state. `.is-current`,
  * not `.active`: that one already means "this is the current route" on the
- * pill below, and the two would fight.
+ * pill below, and the two would fight
  */
 .nav-links a:hover,
 .nav-links a.is-current {
@@ -476,7 +476,7 @@ html.nav-at-top .site-nav:not(:has(.mobile-menu.open)) {
   transform: scaleX(1);
 }
 
-/* Link to the catalogue page, styled as a pill instead of a nav link. */
+/* Link to the catalogue page, styled as a pill instead of a nav link */
 .nav-pill {
   color: rgba(255, 255, 255, 0.8);
   border: 1.5px solid transparent;
@@ -491,25 +491,25 @@ html.nav-at-top .site-nav:not(:has(.mobile-menu.open)) {
     color 0.2s;
 }
 
-/* Outlined state: hover changes the text colour, like the other nav links. */
+/* Outlined state: hover changes the text colour, like the other nav links */
 .nav-pill:hover {
   color: #b8d89a;
 }
 
-/* Current page stays filled, so the active state remains distinguishable. */
+/* Current page stays filled, so the active state remains distinguishable */
 .nav-pill.active {
   background: #b8d89a;
   color: var(--text);
 }
 
-/* Filled state: the dark text stays put and the background shifts instead. */
+/* Filled state: the dark text stays put and the background shifts instead */
 .nav-pill.active:hover {
   background: #cde6b4;
   border-color: #cde6b4;
   color: var(--text);
 }
 
-/* The pill has its own affordance; skip the underline sweep. */
+/* The pill has its own affordance; skip the underline sweep */
 .nav-links .nav-pill::after {
   content: none;
 }
@@ -587,7 +587,7 @@ html:not(.nav-at-top) .nav-links .nav-pill::before {
  * `.site-nav`, whose `backdrop-filter` makes it a backdrop root, so a nested
  * blur no longer samples the page behind the panel. The old translucent
  * background then let the hero's headline show straight through the menu.
- * `--text` is the colour the old rgba() was approaching at full opacity.
+ * `--text` is the colour the old rgba() was approaching at full opacity
  */
 .mobile-menu {
   display: none;
@@ -612,7 +612,7 @@ html:not(.nav-at-top) .nav-links .nav-pill::before {
   transition: color 0.2s;
 }
 
-/* No underline sweep to borrow here, so the colour carries the state alone. */
+/* No underline sweep to borrow here, so the colour carries the state alone */
 .mobile-menu a.is-current {
   color: #b8d89a;
 }
@@ -650,7 +650,7 @@ html:not(.nav-at-top) .nav-links .nav-pill::before {
   }
 }
 
-/* ── FOOTER ── */
+/* --- FOOTER --- */
 
 .footer-compact {
   background: var(--text);
@@ -710,10 +710,8 @@ html:not(.nav-at-top) .nav-links .nav-pill::before {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
- * HOME PAGE · /
+ * DETAIL PAGE - /
  * ══════════════════════════════════════════════════════════════════════════ */
-
-/* ── MOTION ── */
 
 @keyframes enter-up {
   from {
@@ -783,21 +781,29 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── HERO ── */
+/* --- HERO --- */
 
 #naslovna {
-  min-height: 120vh;
+  min-height: 100vh;
+  min-height: 100svh;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 6rem 1.5rem 15rem;
+  padding: 6rem 1.5rem;
   overflow: hidden;
 
   @media (max-width: 520px) {
-    min-height: 800px;
+    /* min-height: 800px; */
+  }
+
+  @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    --gradient-travel: 16rem;
+    min-height: calc(100vh + var(--gradient-travel));
+    min-height: calc(100svh + var(--gradient-travel));
+    padding-bottom: calc(6rem + var(--gradient-travel));
   }
 }
 
@@ -819,7 +825,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   z-index: 2; /* Sits perfectly above the image, but beneath text/buttons */
   pointer-events: none; /* Prevents layout element from blocking mouse/link interactions */
 
-  /* Your exact gradient strings ported cleanly directly from your original build style */
+  /* exact gradient strings ported cleanly directly from your original build style */
   background: 
     /* FIRST LAYER: up, darker one*/
     linear-gradient(
@@ -832,9 +838,27 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
     linear-gradient(
         to top,
         rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0.8) 10%,
+        rgba(255, 255, 255, 0.7) 10%,
         transparent 40%
       );
+
+  @media (max-width: 480px) {
+    background: 
+    /* FIRST LAYER: up, darker one*/
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 90%
+      ),
+      /* SECOND LAYER: down, white transition from hero to the about section*/
+        linear-gradient(
+          to top,
+          rgba(255, 255, 255, 1) 0%,
+          rgba(255, 255, 255, 0.6) 10%,
+          transparent 40%
+        );
+  }
 }
 
 /* 3. The Content Layer Container Box */
@@ -861,15 +885,19 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .home-subtitle {
-  font-size: clamp(1rem, 2.5vw, 1.25rem);
-  color: rgba(255, 255, 255, 0.82);
+  /* Shrinks only when the first row would not fit, never below 14px: 23 ≈ its width in em, 3rem = the hero's side padding */
+  font-size: clamp(14px, calc((100vw - 3rem) / 23), clamp(1rem, 2.5vw, 1.5rem));
+  color: var(--white);
   margin-bottom: 2.5rem;
-  font-weight: 300;
-  max-width: 500px;
   line-height: 1.4;
+  text-wrap: balance;
+}
 
-  @media (max-width: 800px) {
-    max-width: 400px;
+/* Two fixed rows from 370px, the narrowest screen where the first row still fits at 14px */
+.home-subtitle span {
+  @media (min-width: 370px) {
+    display: block;
+    white-space: nowrap;
   }
 }
 
@@ -888,7 +916,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── ABOUT ── */
+/* --- ABOUT --- */
 
 #o-nama {
   background: var(--white);
@@ -1047,10 +1075,13 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── DJELATNOSTI ── */
+/* --- DJELATNOSTI --- */
 
 #djelatnosti {
-  background: var(--cream);
+  background:
+    linear-gradient(var(--white), transparent 80px),
+    linear-gradient(to top, var(--white), transparent 80px),
+    var(--cream);
 }
 
 .branches-header {
@@ -1060,6 +1091,16 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 
 .branches-header .section-desc {
   text-wrap: pretty;
+}
+
+.branches-header .section-title {
+  /* Shrinks only when the first row would not fit: 11 ≈ its width in em, 3rem = the section's side padding */
+  font-size: min(clamp(2rem, 4vw, 3rem), calc((100vw - 3rem) / 11));
+}
+
+.branches-header .section-title span {
+  display: block;
+  white-space: nowrap;
 }
 
 .branches-grid {
@@ -1149,7 +1190,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── BRANCH MODAL ── */
+/* --- BRANCH MODAL --- */
 
 .modal-overlay {
   position: fixed;
@@ -1167,7 +1208,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 /*
  * Column layout so the head stays put and only `.modal-items` scrolls. The
  * panel itself must not scroll (`overflow: hidden`), which also lets the border
- * radius clip the item list's scrollbar at the rounded corners.
+ * radius clip the item list's scrollbar at the rounded corners
  */
 .modal-panel {
   display: flex;
@@ -1210,13 +1251,13 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* No circle: just the glyph, on a 40px target that stays easy to hit. */
+  /* No circle: just the glyph, on a 40px target that stays easy to hit */
   width: 40px;
   height: 40px;
   margin: -0.35rem -0.6rem 0 0;
   padding: 0;
   border: none;
-  /* No chrome at rest; the radius only shapes the keyboard focus ring. */
+  /* No chrome at rest; the radius only shapes the keyboard focus ring */
   border-radius: 50%;
   background: none;
   color: var(--gray);
@@ -1232,7 +1273,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   /*
    * The only scroll container in the dialog. `min-height: 0` is what lets a
    * flex item shrink below its content height — without it the grid would push
-   * the panel past `max-height` and the page would scroll instead.
+   * the panel past `max-height` and the page would scroll instead
    */
   flex: 1;
   min-height: 0;
@@ -1247,7 +1288,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
    * (which the flex sizing above gives it) Chrome shrinks `auto` rows to divide
    * up the available space, which squashed every card to ~70px and collapsed
    * the aspect-ratio media to zero. Explicit content-sized rows overflow — and
-   * overflowing is exactly what should happen here, since this box scrolls.
+   * overflowing is exactly what should happen here, since this box scrolls
    */
   grid-auto-rows: max-content;
   align-content: start;
@@ -1258,7 +1299,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
    * `backwards`, not `both`: a filled animation keeps `transform` under its own
    * control after finishing, which outranks the `:hover` rule and made these
    * cards snap to the lifted position instead of transitioning like every other
-   * card. `backwards` still holds the pre-start state for the stagger delay.
+   * card. `backwards` still holds the pre-start state for the stagger delay
    */
   animation: card-in 0.35s ease backwards;
 }
@@ -1291,7 +1332,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 /*
  * Exit. `.closing` is set by app/ui/branches.tsx, which delays the unmount by
  * CLOSE_MS so these have time to run — without it React removes the dialog on
- * the same tick and the close reads as an instant disappearance.
+ * the same tick and the close reads as an instant disappearance
  */
 .modal-overlay.closing {
   animation: fade-out 180ms ease forwards;
@@ -1333,7 +1374,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── CONTACT ── */
+/* --- CONTACT --- */
 
 #kontakt {
   background: var(--white);
@@ -1407,22 +1448,11 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   width: 100%;
 }
 
-.contact-note {
-  margin-top: 2rem;
-  padding: 1.25rem 1.5rem;
-  background: #eef6e8;
-  border-radius: 12px;
-  border-left: 3px solid var(--green-lt);
-  font-size: 0.9rem;
-  color: var(--gray);
-  line-height: 1.6;
-}
-
 /* ══════════════════════════════════════════════════════════════════════════
- * CATALOGUE PAGE · /proizvodi-i-usluge
+ * CATALOGUE PAGE - /proizvodi-i-usluge
  * ══════════════════════════════════════════════════════════════════════════ */
 
-/* ── PAGE HEAD ── */
+/* --- PAGE HEAD --- */
 
 .page-head {
   background: var(--text);
@@ -1502,10 +1532,10 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
- * DETAIL PAGE · /proizvodi-i-usluge/[id]
+ * DETAIL PAGE - /proizvodi-i-usluge/[id]
  * ══════════════════════════════════════════════════════════════════════════ */
 
-/* ── DETAIL HEAD ── */
+/* --- DETAIL HEAD --- */
 
 .detail-head {
   background: var(--white);
@@ -1559,7 +1589,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── DETAIL FACTS ── */
+/* --- DETAIL FACTS --- */
 
 .detail-facts {
   background: var(--cream);
@@ -1646,7 +1676,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 
 /*
  * Covers .detail-layout from DETAIL HEAD too. It sits after both base rules
- * because, at equal specificity, it has to come later than each of them.
+ * because, at equal specificity, it has to come later than each of them
  */
 @media (max-width: 860px) {
   .detail-layout,
@@ -1662,7 +1692,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   }
 }
 
-/* ── RELATED ── */
+/* --- RELATED --- */
 
 .related {
   background: var(--white);

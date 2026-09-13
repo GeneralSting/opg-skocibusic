@@ -7,10 +7,11 @@ export default function Contact() {
         <div className="contact-grid">
           <div>
             <div className="section-label">Kontakt</div>
-            <h2 className="section-title">Stupite u kontakt</h2>
+            <h2 className="section-title">Dogovorimo se</h2>
             <p className="section-desc">
-              Za sve upite o dostupnosti, cijenama i narudžbama - kontaktirajte
-              nas direktno putem mobitela ili društvenih mreža.
+              Za sve upite o dostupnosti, cijenama i narudžbama obratite nam se
+              izravno. Ne nudimo online kupnju pa preuzimanje i dostavu
+              rješavamo po dogovoru
             </p>
 
             <div className="contact-cards" data-reveal="stagger-left">
@@ -83,11 +84,6 @@ export default function Contact() {
                   <div className="val">drskocibusic@gmail.com</div>
                 </div>
               </a>
-            </div>
-
-            <div className="contact-note">
-              <strong>Napomena:</strong> Ne nudimo online kupnju. Kontaktirajte
-              nas za informacije o preuzimanju ili dostavi.
             </div>
           </div>
 

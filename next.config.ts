@@ -18,6 +18,32 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Item pages merged or renamed when the catalogue was regrouped, so old links
+  // and search results land on the page that now covers them
+  async redirects() {
+    return [
+      {
+        source: "/proizvodi-i-usluge/ugovorna-proizvodnja",
+        destination: "/proizvodi-i-usluge/strojevi",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi-i-usluge/terarij-100",
+        destination: "/proizvodi-i-usluge/biljni-terariji",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi-i-usluge/terarij-150",
+        destination: "/proizvodi-i-usluge/biljni-terariji",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi-i-usluge/presadnice-drveca",
+        destination: "/proizvodi-i-usluge/sadnice-drveca",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

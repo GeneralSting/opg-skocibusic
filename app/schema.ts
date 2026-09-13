@@ -63,7 +63,7 @@ function itemNode(item: CatalogItem, branch: Branch) {
         ...shared,
         serviceType: item.title,
         provider: { "@id": BUSINESS_ID },
-        areaServed: { "@type": "AdministrativeArea", name: business.region },
+        areaServed: { "@type": "AdministrativeArea", name: business.municipality },
       }
     : {
         "@type": "Product",
@@ -120,7 +120,7 @@ export function localBusinessSchema() {
       streetAddress: business.street,
       postalCode: business.postalCode,
       addressLocality: business.locality,
-      addressRegion: business.region,
+      addressRegion: business.county,
       addressCountry: business.country,
     },
     geo: {
@@ -129,7 +129,7 @@ export function localBusinessSchema() {
       longitude: business.longitude,
     },
     hasMap: business.mapsUrl,
-    areaServed: { "@type": "AdministrativeArea", name: business.region },
+    areaServed: { "@type": "AdministrativeArea", name: business.municipality },
     // Nested one level so the catalogue mirrors the site: a sub-catalogue per
     // line of business, each holding that branch's offers
     hasOfferCatalog: {

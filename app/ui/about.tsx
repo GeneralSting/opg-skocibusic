@@ -15,12 +15,11 @@ export default function About() {
             <div className="section-label">O nama</div>
             <h2 className="section-title">Malo gospodarstvo Velika pažnja</h2>
             <p className="section-desc">
-              Naše obiteljsko poljoprivredno gospodarstvo smješteno je u selu
-              Koritna, u srcu plodne slavonske zemlje. Uzgajamo i proizvodimo
-              hranu koju i sami ponosno stavljamo na svoj stol. Vjerujemo da ono
-              što dolazi iz prirode, uzgojeno s pažnjom, poštovanjem i bez
-              nepotrebnih dodataka, donosi ono najvrjednije: zdravlje i pravi
-              okus domaćeg.
+              Naše obiteljsko poljoprivredno gospodarstvo nalazi se u Koritni
+              (Općina Semeljci), u samom srcu plodne slavonske zemlje. Nismo
+              velika industrijska farma i ne težimo tome - radimo sami,
+              vlastitim rukama i na svojoj zemlji. Uzgajamo i proizvodimo hranu
+              koju i sami ponosno stavljamo na svoj stol.
             </p>
 
             <div className="about-values">
@@ -84,9 +83,9 @@ export default function About() {
                   loading="lazy"
                 />
                 <div>
-                  <h3>Tradicija = zdravlje</h3>
+                  <h3>Tradicija uzgoja</h3>
                   <p>
-                    Držimo se tradicionalnog načina: sporije, prirodnije,
+                    Držimo se tradicionalnog rada: sporije, prirodnije,
                     zdravije.
                   </p>
                 </div>
