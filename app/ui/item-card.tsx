@@ -1,8 +1,8 @@
 import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { itemPath } from "../utilities";
-import { CatalogItem } from "../types";
+import { itemPath, truncateText } from "../utilities";
+import { Availability, CatalogItem } from "../types";
 import { MISSING_IMAGE_TEXT } from "../data";
 
 /**
@@ -19,6 +19,12 @@ export const GRID_CARD_SIZES =
   "(min-width: 1148px) 346px, (min-width: 1040px) calc((100vw - 112px) / 3), (min-width: 700px) calc((100vw - 80px) / 2), calc(100vw - 48px)";
 
 /**
+ * Characters of the lead a card shows, roughly 10–15 words. The full lead is
+ * on the detail page; measured to stay within 2–3 lines at every card width
+ */
+const LEAD_PREVIEW_LENGTH = 90;
+
+/**
  * Card for a single catalogue item. Shared by the /proizvodi-i-usluge listing,
  * the branch modal on the home page and the "related items" strip on a detail
  * page, so `sizes` is passed in by the caller — the rendered width differs in
@@ -27,35 +33,44 @@ export const GRID_CARD_SIZES =
 export const ItemCard: FC<{ item: CatalogItem; sizes: string }> = ({
   item,
   sizes,
-}) => (
-  <Link href={itemPath(item)} className="item-card">
-    <div className="item-card-media">
-      {item.img ? (
-        <Image
-          src={item.img}
-          alt={item.title}
-          fill
-          quality={70}
-          sizes={sizes}
-          style={{ objectFit: "cover" }}
-        />
-      ) : (
-        <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
-      )}
-    </div>
+}) => {
+  const [cover] = item.gallery;
 
-    <div className="item-card-body">
-      <div>
-        <h3>{item.title}</h3>
-        <p>{item.desc}</p>
+  return (
+    <Link href={itemPath(item)} className="item-card">
+      <div className="item-card-media">
+        {cover ? (
+          <Image
+            src={cover.src}
+            alt={cover.alt ?? item.title}
+            fill
+            quality={70}
+            sizes={sizes}
+            style={{ objectFit: "cover" }}
+          />
+        ) : (
+          <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
+        )}
       </div>
-      <AvailabilityTag tag={item.tag} />
-    </div>
-  </Link>
-);
+
+      <div className="item-card-body">
+        <div>
+          <h3>{item.title}</h3>
+          <p>{truncateText(item.lead, LEAD_PREVIEW_LENGTH)}</p>
+        </div>
+        <AvailabilityTag tag={item.tag} />
+      </div>
+    </Link>
+  );
+};
+
+/** Tag colour per availability: green available now, amber by prior agreement, grey not yet */
+const TAG_CLASS: Record<Availability, string> = {
+  Dostupno: "tag-now",
+  "Po narudžbi": "tag-order",
+  Uskoro: "tag-soon",
+};
 
 export const AvailabilityTag: FC<{ tag: CatalogItem["tag"] }> = ({ tag }) => (
-  <span className={`tag ${tag === "Dostupno" ? "tag-now" : "tag-soon"}`}>
-    {tag}
-  </span>
+  <span className={`tag ${TAG_CLASS[tag]}`}>{tag}</span>
 );

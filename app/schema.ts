@@ -1,7 +1,7 @@
 import { business, siteUrl } from "./site";
 import { branches } from "./data";
 import { itemPath } from "./utilities";
-import type { Branch, CatalogItem } from "./types";
+import type { Availability, Branch, CatalogItem } from "./types";
 
 /**
  * schema.org builders for the JSON-LD each page emits
@@ -19,10 +19,12 @@ const absolute = (path: string) => `${siteUrl}${path}`;
 
 export const itemUrl = (item: CatalogItem) => absolute(itemPath(item));
 
-const availability = (item: CatalogItem) =>
-  item.tag === "Dostupno"
-    ? "https://schema.org/InStock"
-    : "https://schema.org/PreOrder";
+/** schema.org availability per tag. "Po narudžbi" is MadeToOrder: it is produced or booked once agreed with the customer */
+const AVAILABILITY: Record<Availability, string> = {
+  Dostupno: "https://schema.org/InStock",
+  "Po narudžbi": "https://schema.org/MadeToOrder",
+  Uskoro: "https://schema.org/PreOrder",
+};
 
 /**
  * Offers carry no `price`: nothing is sold online and prices are agreed by
@@ -32,7 +34,7 @@ const availability = (item: CatalogItem) =>
 function offer(item: CatalogItem) {
   return {
     "@type": "Offer",
-    availability: availability(item),
+    availability: AVAILABILITY[item.tag],
     url: itemUrl(item),
     seller: { "@id": BUSINESS_ID },
   };
@@ -47,6 +49,10 @@ function offer(item: CatalogItem) {
  */
 function itemNode(item: CatalogItem, branch: Branch) {
   const url = itemUrl(item);
+  const images = item.gallery
+    .filter((media) => media.type === "image")
+    .map((media) => absolute(media.src));
+
   const shared = {
     "@id": `${url}#item`,
     name: item.title,
@@ -54,7 +60,7 @@ function itemNode(item: CatalogItem, branch: Branch) {
     url,
     category: branch.label,
     keywords: item.bullets.join(", "),
-    ...(item.img ? { image: absolute(item.img) } : {}),
+    ...(images.length > 0 ? { image: images } : {}),
   };
 
   return branch.kind === "service"

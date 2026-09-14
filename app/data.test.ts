@@ -78,9 +78,14 @@ describe("images", () => {
   // Typo here renders "Fotografija dolazi" placeholder or a broken box, which is easy to miss on a page
   const exists = (src: string) => existsSync(join(projectRoot, "public", src));
 
-  it("referenced by catalogue items exist in public/", () => {
-    for (const item of allItems.filter((candidate) => candidate.img)) {
-      expect(exists(item.img), item.img).toBe(true);
+  it("and videos in catalogue galleries exist in public/", () => {
+    for (const item of allItems) {
+      for (const media of item.gallery) {
+        expect(exists(media.src), `${item.id}: ${media.src}`).toBe(true);
+        if (media.type === "video") {
+          expect(exists(media.poster), `${item.id}: ${media.poster}`).toBe(true);
+        }
+      }
     }
   });
 
@@ -99,6 +104,32 @@ describe("images", () => {
   it("in the about slider all carry alt text", () => {
     for (const image of aboutImages) {
       expect(image.alt.trim(), image.src).not.toBe("");
+    }
+  });
+});
+
+describe("font sizes", () => {
+  // Nothing on the site goes below 14px. A 12px label still looks fine at a glance, so only this catches it
+  const MIN_PX = 14;
+
+  const toPx = (value: string) => {
+    const match = value.trim().match(/^([\d.]+)(rem|px)$/);
+    if (!match) return null;
+    return Number(match[1]) * (match[2] === "rem" ? 16 : 1);
+  };
+
+  it(`never go below ${MIN_PX}px in globals.css`, () => {
+    const css = readFileSync(join(appDir, "globals.css"), "utf8");
+
+    for (const [, value] of css.matchAll(/font-size:\s*([^;]+);/g)) {
+      // A clamp() can only be as small as its first argument. Other expressions (min, calc) are not checked
+      const smallest = value.startsWith("clamp(")
+        ? value.slice("clamp(".length).split(",")[0]
+        : value;
+      const px = toPx(smallest);
+      if (px !== null) {
+        expect(px, `font-size: ${value}`).toBeGreaterThanOrEqual(MIN_PX);
+      }
     }
   });
 });

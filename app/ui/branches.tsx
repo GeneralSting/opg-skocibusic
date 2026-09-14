@@ -125,9 +125,8 @@ export default function Branches() {
           >
             <div className="modal-head">
               <div>
-                <div className="branch-kicker">{openBranchData.label}</div>
                 <h3 id="branch-modal-title">{openBranchData.title}</h3>
-                <p>{openBranchData.desc}</p>
+                <p>{openBranchData.desc} U ponudi je trenutno:</p>
               </div>
               <button
                 ref={closeButtonRef}

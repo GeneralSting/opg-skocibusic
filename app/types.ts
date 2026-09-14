@@ -3,7 +3,22 @@ export type AboutImage = {
   alt: string;
 };
 
-export type Availability = "Dostupno" | "Uskoro";
+/** "Po narudžbi": offered only once the customer agrees it with us in advance */
+export type Availability = "Dostupno" | "Po narudžbi" | "Uskoro";
+
+export type GalleryImage = {
+  type: "image";
+  src: string;
+  alt?: string; // Falls back to the item title
+};
+
+export type GalleryVideo = {
+  type: "video";
+  src: string; // mp4 (H.264) plays in every browser
+  poster: string; // Image shown on the thumbnail and before playback starts
+};
+
+export type GalleryMedia = GalleryImage | GalleryVideo;
 
 // Single product or service, with its own detail page
 export type CatalogItem = {
@@ -16,9 +31,13 @@ export type CatalogItem = {
    * ~43 characters
    */
   seoTitle: string;
-  desc: string;
   tag: Availability;
-  img: string; // Empty string renders a "Fotografija dolazi" placeholder
+  /**
+   * Photos and videos on the detail page. The first entry must be a photo: it
+   * is also the card image, the share card photo and the structured data image.
+   * An empty list renders a "Fotografija dolazi" placeholder
+   */
+  gallery: [] | [GalleryImage, ...GalleryMedia[]];
   lead: string;
   bullets: string[];
   availability: string;

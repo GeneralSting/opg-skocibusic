@@ -43,6 +43,6 @@ export default async function Image({ params }: Props) {
     title: item.title,
     description: item.lead,
     badge: item.tag,
-    photo: await cardPhoto(item.img),
+    photo: await cardPhoto(item.gallery[0]?.src ?? ""),
   });
 }

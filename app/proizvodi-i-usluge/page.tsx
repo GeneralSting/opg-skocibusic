@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Navbar } from "../navbar";
 import Footer from "../ui/footer";
-import CtaBand from "../ui/cta-band";
+import CatalogCta from "../ui/catalog-cta";
 import { Breadcrumbs } from "../ui/breadcrumbs";
+import { ContactButtons } from "../ui/contact-buttons";
 import { ItemCard, GRID_CARD_SIZES } from "../ui/item-card";
 import { JsonLd } from "../ui/json-ld";
 import { allItems, branches } from "../data";
@@ -32,7 +34,17 @@ export default function ProizvodiIUsluge() {
       <Navbar />
       <main>
         <section className="page-head">
-          <div className="container">
+          <Image
+            src="/products-services-bg.webp"
+            alt=""
+            fill
+            preload
+            quality={75}
+            sizes="100vw"
+            className="page-head-bg"
+          />
+
+          <div className="container page-head-content">
             <Breadcrumbs
               variant="dark"
               crumbs={[
@@ -40,12 +52,15 @@ export default function ProizvodiIUsluge() {
                 { label: "Proizvodi i usluge" },
               ]}
             />
-            <h1>Sve što nudimo, na jednom mjestu</h1>
+            <h1>Ponuda s našeg gospodarstva</h1>
             <p>
-              Proizvodi iz vlastitog uzgoja i usluge na terenu, razdvojeni po
-              djelatnostima. Klikom na karticu otvaraju se detalji, dostupnost i
-              način preuzimanja.
+              Pogledajte što trenutno nudimo s našeg obiteljskog gospodarstva te
+              koje poljoprivredne i strojne usluge pružamo na području Općine
+              Semeljci.
             </p>
+            <div className="page-head-actions">
+              <ContactButtons variant="dark" />
+            </div>
           </div>
         </section>
 
@@ -56,7 +71,6 @@ export default function ProizvodiIUsluge() {
                 <div className="group-divider">
                   <span className="rule" />
                   <div className="group-heading">
-                    <div className="group-kicker">Djelatnost {branch.num}</div>
                     <h2>{branch.title}</h2>
                   </div>
                   <span className="rule" />
@@ -64,15 +78,21 @@ export default function ProizvodiIUsluge() {
 
                 <div className="items-grid">
                   {branch.items.map((item) => (
-                    <ItemCard key={item.id} item={item} sizes={GRID_CARD_SIZES} />
+                    <ItemCard
+                      key={item.id}
+                      item={item}
+                      sizes={GRID_CARD_SIZES}
+                    />
                   ))}
                 </div>
               </div>
             ))}
           </div>
-        </section>
 
-        <CtaBand />
+          <div className="container">
+            <CatalogCta />
+          </div>
+        </section>
       </main>
       <Footer />
 

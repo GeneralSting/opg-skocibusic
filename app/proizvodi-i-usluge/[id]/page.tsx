@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Navbar } from "../../navbar";
 import Footer from "../../ui/footer";
 import { Breadcrumbs } from "../../ui/breadcrumbs";
+import { ContactButtons } from "../../ui/contact-buttons";
+import { ProductGallery } from "../../product-gallery";
 import { ItemCard, AvailabilityTag, GRID_CARD_SIZES } from "../../ui/item-card";
 import { JsonLd } from "../../ui/json-ld";
 import { allItems, MISSING_IMAGE_TEXT } from "../../data";
@@ -45,7 +46,9 @@ export default async function DetaljiProizvoda({ params }: Props) {
   if (!found) notFound();
 
   const { branch, item } = found;
-  const related = branch.items.filter((i) => i.id !== item.id);
+  const related = branch.items.filter(
+    (branchItem) => branchItem.id !== item.id,
+  );
 
   return (
     <>
@@ -62,23 +65,16 @@ export default async function DetaljiProizvoda({ params }: Props) {
             />
 
             <div className="detail-layout">
-              <div className="detail-media">
-                {item.img ? (
-                  <Image
-                    src={item.img}
-                    alt={item.title}
-                    fill
-                    quality={70}
-                    sizes="(min-width: 1148px) 518px, (min-width: 861px) calc((100vw - 112px) / 2), calc(100vw - 48px)"
-                    style={{ objectFit: "cover" }}
-                  />
-                ) : (
+              {item.gallery.length > 0 ? (
+                <ProductGallery title={item.title} media={item.gallery} />
+              ) : (
+                <div className="detail-media">
                   <div className="photo-pending-block">
                     <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
                     <span>{item.title}</span>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
 
               <div>
                 <div className="section-label">{branch.label}</div>
@@ -87,21 +83,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
                 <AvailabilityTag tag={item.tag} />
 
                 <div className="detail-actions">
-                  <a
-                    href={`tel:${business.phone}`}
-                    rel="nofollow"
-                    className="btn btn-primary"
-                  >
-                    Pozovite nas
-                  </a>
-                  <a
-                    href={business.whatsapp}
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
-                    className="btn btn-ghost"
-                  >
-                    WhatsApp
-                  </a>
+                  <ContactButtons />
                 </div>
               </div>
             </div>
@@ -127,7 +109,9 @@ export default async function DetaljiProizvoda({ params }: Props) {
                 <div className="fact-value strong">{item.availability}</div>
               </div>
               <div className="fact bordered">
-                <div className="fact-label">Preuzimanje i obračun</div>
+                <div className="fact-label">
+                  {branch.kind === "service" ? "Obračun" : "Preuzimanje"}
+                </div>
                 <div className="fact-value">{item.settle}</div>
               </div>
               <div className="fact bordered">
@@ -137,8 +121,8 @@ export default async function DetaljiProizvoda({ params }: Props) {
                 </div>
               </div>
               <p className="fact-note">
-                Ne nudimo online kupnju. Dostupnost i termin dogovaraju se
-                telefonom.
+                Ne nudimo online kupnju. Dostupnost i isporuka dogovaraju se
+                osobno
               </p>
             </aside>
           </div>
@@ -147,10 +131,10 @@ export default async function DetaljiProizvoda({ params }: Props) {
         {related.length > 0 && (
           <section className="related">
             <div className="container">
+              <div className="group-kicker">Iz iste djelatnosti</div>
               <div className="group-divider">
                 <span className="rule" />
                 <div className="group-heading">
-                  <div className="group-kicker">Iz iste djelatnosti</div>
                   <h2>{branch.title}</h2>
                 </div>
                 <span className="rule" />

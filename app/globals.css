@@ -6,6 +6,8 @@
 
 /* ── BASE ── */
 
+/* No text anywhere on the site is smaller than 14px (0.875rem), enforced by app/data.test.ts */
+
 *,
 *::before,
 *::after {
@@ -24,6 +26,46 @@
   --text: #1e2d18;
   --gray: #4e4f53;
   --white: #ffffff;
+
+  /* One screen height, in the most stable unit the browser supports */
+  --screen: 1vh;
+
+  /*
+   * Where the top content starts on the catalogue and on every detail page, so
+   * a breadcrumb clicked on one lands under the same pointer on the other
+   *
+   * It is the spot that centres the catalogue header's text block (breadcrumbs
+   * down to the buttons) in the first screen: the middle of the space between the
+   * navbar gap (70px + 2rem) and 35 screen heights + 2rem above the screen's
+   * bottom is 35px + 32.5 screen heights, minus half the block. Never higher than the
+   * navbar gap, which is where a block too tall to centre starts
+   */
+  --page-top: max(
+    calc(70px + 2rem),
+    calc(35px + var(--screen) * 32.5 - var(--head-block) / 2)
+  );
+
+  /*
+   * Height of that text block, measured per layout: it steps where the title or
+   * the description wraps onto another line. Re-measure if the header copy changes
+   */
+  --head-block: 330px;
+
+  @supports (height: 1svh) {
+    --screen: 1svh;
+  }
+
+  @media (max-width: 1119px) {
+    --head-block: 255px;
+  }
+
+  @media (max-width: 659px) {
+    --head-block: 300px;
+  }
+
+  @media (max-width: 480px) {
+    --head-block: 413px;
+  }
 }
 
 html {
@@ -93,7 +135,7 @@ section {
 }
 
 .section-label {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--green-mid);
@@ -166,21 +208,36 @@ section {
   border-color: var(--green);
 }
 
-.btn-on-green {
-  background: var(--white);
-  color: var(--green);
-}
-
-.btn-on-green-outline {
-  background: rgba(255, 255, 255, 0.12);
-  border: 2px solid rgba(255, 255, 255, 0.7);
-  color: var(--white);
-}
-
 @media (max-width: 480px) {
   .btn {
     width: 100%;
     max-width: 260px;
+  }
+}
+
+/* ── CONTACT BUTTONS (catalogue header and closing prompt, detail pages) ── */
+
+/*
+ * A shrink-to-fit grid: both `1fr` columns grow to the wider button, so the
+ * call and WhatsApp buttons are always the same width
+ */
+.contact-buttons {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* The white outline button on dark backgrounds carries a 180px minimum; matching it keeps the pair one size everywhere */
+.contact-buttons .btn {
+  min-width: 180px;
+}
+
+/* Stacked on phones, both as wide as the 260px cap on `.btn`. The full width matters inside flex rows, which would otherwise shrink the grid to its content */
+@media (max-width: 480px) {
+  .contact-buttons {
+    display: grid;
+    grid-template-columns: min(100%, 260px);
+    width: 100%;
   }
 }
 
@@ -243,10 +300,19 @@ section {
   font-size: 0.88rem;
   color: var(--gray);
   line-height: 1.6;
+  /*
+   * The lead is already cut to a short preview in the markup. This only catches
+   * the narrowest cards (320px phones), where the preview can wrap onto a fourth line
+   */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
 }
 
 .photo-pending {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   font-weight: 700;
@@ -271,7 +337,7 @@ section {
   display: inline-block;
   padding: 0.35rem 0.8rem;
   border-radius: 50px;
-  font-size: 0.72rem;
+  font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -280,6 +346,12 @@ section {
 .tag-now {
   background: #eef6e8;
   color: var(--green-mid);
+}
+
+/* Honey amber rather than yellow: pale enough to sit beside the green tag, text at 5:1 contrast */
+.tag-order {
+  background: #fbf0dc;
+  color: #96580a;
 }
 
 .tag-soon {
@@ -301,7 +373,7 @@ section {
   flex-wrap: wrap;
   gap: 0.6rem;
   list-style: none;
-  font-size: 0.78rem;
+  font-size: 0.875rem;
 }
 
 .breadcrumbs a {
@@ -358,13 +430,17 @@ section {
   text-align: center;
 }
 
+/* Above the divider, centred over the heading that sits in it */
 .group-kicker {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--green-mid);
   font-weight: 700;
-  margin-bottom: 0.3rem;
+  text-align: center;
+  /* Letter spacing trails the last letter too; indenting by the same amount keeps the word truly centred */
+  text-indent: 0.18em;
+  margin-bottom: 0.75rem;
 }
 
 .group-heading h2 {
@@ -693,7 +769,7 @@ html:not(.nav-at-top) .nav-links .nav-pill::before {
 }
 
 .footer-copy-slim {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
 }
 
 @media (max-width: 768px) {
@@ -830,8 +906,8 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
     /* FIRST LAYER: up, darker one*/
     linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.4) 50%,
+      rgba(0, 0, 0, 0.85) 0%,
+      rgba(0, 0, 0, 0.45) 50%,
       transparent 60%
     ),
     /* SECOND LAYER: down, white transition from hero to the about section*/
@@ -848,7 +924,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
       linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0.9) 0%,
-        rgba(0, 0, 0, 0.4) 50%,
+        rgba(0, 0, 0, 0.45) 50%,
         transparent 90%
       ),
       /* SECOND LAYER: down, white transition from hero to the about section*/
@@ -869,6 +945,22 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+
+/*
+ * A soft dark shape behind the centred text and buttons. It belongs to the
+ * content, so it stays behind it at every width and height, including the
+ * desktop layout where the content sits in the first screen of a taller hero
+ */
+.hero-content::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -2rem max(0rem, calc(50% - 30rem));
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  filter: blur(60px);
+  pointer-events: none;
 }
 
 #naslovna h1 {
@@ -1010,7 +1102,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .badge-text {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-top: 0.2rem;
@@ -1053,7 +1145,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .value-item p {
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   color: var(--gray);
   line-height: 1.6;
 }
@@ -1080,8 +1172,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 #djelatnosti {
   background:
     linear-gradient(var(--white), transparent 80px),
-    linear-gradient(to top, var(--white), transparent 80px),
-    var(--cream);
+    linear-gradient(to top, var(--white), transparent 80px), var(--cream);
 }
 
 .branches-header {
@@ -1151,7 +1242,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .branch-kicker {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--green-mid);
@@ -1173,7 +1264,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 
 .branch-cta {
   color: var(--green-mid);
-  font-size: 0.85rem;
+  font-size: 0.875rem;
   font-weight: 600;
   margin-top: 0.5rem;
 }
@@ -1426,7 +1517,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .contact-card .info .lbl {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   color: var(--gray);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1455,8 +1546,81 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 /* --- PAGE HEAD --- */
 
 .page-head {
-  background: var(--text);
-  padding: 9rem 1.5rem 4rem;
+  /*
+   * Screen heights the section runs past the first screen. The cream fade sits
+   * in that extra stretch, so the header opens on the dark photo alone and the
+   * fade only rises into view once the visitor scrolls
+   */
+  --head-extra: 10;
+
+  position: relative;
+  overflow: hidden;
+  min-height: calc(var(--screen) * (100 + var(--head-extra)));
+  /*
+   * --page-top already places the text block centred in the first screen, so it
+   * simply starts there. The bottom padding keeps the cream fade below the
+   * buttons; its 35 screen heights feed --page-top, so change both together
+   */
+  padding: var(--page-top) 1.5rem
+    calc(var(--screen) * (35 + var(--head-extra)) + 2rem);
+
+  @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    --head-extra: 20;
+  }
+}
+
+.page-head-bg {
+  object-fit: cover;
+}
+
+/*
+ * The photo is only a backdrop hinting at what the catalogue holds. A dark
+ * layer over the whole of it keeps the white text readable, and the cream layer
+ * on top dissolves it into the catalogue below
+ *
+ * The cream fade is measured up from the bottom in screen heights, like the
+ * padding that makes room for it. In percentages it grew with the section
+ * whenever the content made it taller than the screen (small phones, landscape)
+ * and crept up under the buttons
+ */
+.page-head::before {
+  /* The content column's left edge: the screen's top-left corner until the 1100px container stops filling the screen, then the text's own corner */
+  --shade-x: max(0px, calc(50% - 550px));
+
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      var(--cream) 0%,
+      rgba(245, 240, 232, 0.85) calc(var(--screen) * 12),
+      rgba(245, 240, 232, 0.4) calc(var(--screen) * 26),
+      transparent calc(var(--screen) * 40)
+    ),
+    /* Covers the whole photo: darkest in the top-left corner where the text starts, easing off towards the far corner */
+    radial-gradient(
+      farthest-corner at var(--shade-x) 0,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0.62) 45%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+}
+
+.page-head-content {
+  position: relative;
+  z-index: 2;
+
+  @media (max-width: 480px) {
+    text-align: center;
+
+    .breadcrumbs ol,
+    .contact-buttons {
+      justify-content: center;
+    }
+  }
 }
 
 .page-head h1 {
@@ -1466,27 +1630,26 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   font-weight: 700;
   margin-bottom: 1.25rem;
   max-width: 820px;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
 }
 
 .page-head p {
   font-size: 1.1rem;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.78);
-  font-weight: 300;
+  color: rgba(255, 255, 255, 0.88);
   max-width: 620px;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.5);
 }
 
-@media (max-width: 520px) {
-  .page-head {
-    padding-top: 7.5rem;
-  }
+.page-head-actions {
+  margin-top: 2rem;
 }
 
 /* ── CATALOG ── */
 
 .catalog {
   background: var(--cream);
-  padding: 4.5rem 1.5rem 5.5rem;
+  padding: 2.5rem 1.5rem 5.5rem;
 }
 
 .catalog-groups {
@@ -1495,40 +1658,40 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   gap: 4rem;
 }
 
-/* ── CTA BAND ── */
+/* ── CATALOG CTA ── */
 
-.cta-band {
-  background: var(--green);
-  color: var(--white);
-  padding: 4.5rem 1.5rem;
-}
-
-.cta-band-inner {
+.catalog-cta {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 3rem;
+  gap: 2rem 3rem;
   flex-wrap: wrap;
+  margin-top: 4.5rem;
+  padding-top: 3.5rem;
+  border-top: 1px solid rgba(58, 92, 46, 0.18);
+
+  @media (max-width: 480px) {
+    justify-content: center;
+    text-align: center;
+
+    .contact-buttons {
+      justify-content: center;
+    }
+  }
 }
 
-.cta-band h2 {
+.catalog-cta h2 {
   font-size: clamp(1.7rem, 3.2vw, 2.4rem);
   line-height: 1.2;
   margin-bottom: 0.9rem;
-  color: var(--white);
+  color: var(--green);
 }
 
-.cta-band p {
+.catalog-cta p {
   font-size: 1.02rem;
   line-height: 1.65;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--gray);
   max-width: 560px;
-}
-
-.cta-band-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -1539,7 +1702,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 
 .detail-head {
   background: var(--white);
-  padding: 8.5rem 1.5rem 4rem;
+  padding: var(--page-top) 1.5rem 4rem;
 }
 
 .detail-layout {
@@ -1561,6 +1724,168 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   justify-content: center;
 }
 
+/* --- GALLERY --- */
+
+.gallery {
+  /* Lets the grid column shrink below the width of a long thumbnail row */
+  min-width: 0;
+}
+
+.gallery-track {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Swiping past the first or last slide does not trigger the browser's back gesture */
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &:focus-visible {
+    outline-offset: -3px;
+  }
+}
+
+.gallery-slide {
+  position: relative;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  /* One swipe moves one slide, however hard the flick */
+  scroll-snap-stop: always;
+
+  &.video {
+    background: var(--text);
+  }
+
+  & video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* Phone videos are often portrait; letterbox them rather than crop */
+    object-fit: contain;
+  }
+}
+
+/* Mouse and trackpad only: on touch screens the slides are swiped instead */
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--green);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    opacity 0.2s,
+    background-color 0.2s,
+    transform 0.2s;
+
+  &.prev {
+    left: 0.875rem;
+  }
+
+  &.next {
+    right: 0.875rem;
+  }
+
+  &:hover {
+    background: var(--white);
+    transform: translateY(-50%) scale(1.06);
+  }
+
+  &[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: default;
+    transform: translateY(-50%);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    display: flex;
+  }
+}
+
+.gallery-thumbs {
+  position: relative;
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  /* Room for the focus ring, which the scroll box would otherwise clip */
+  margin: 0.625rem -6px 0;
+  padding: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(58, 92, 46, 0.25) transparent;
+}
+
+.gallery-thumb {
+  position: relative;
+  flex: 0 0 5.25rem;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #eef6e8;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+
+  /* Drawn on top of the photo, so the active frame never shifts the row */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 2px solid transparent;
+    border-radius: inherit;
+    transition: border-color 0.2s;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.active {
+    opacity: 1;
+
+    &::after {
+      border-color: var(--green);
+    }
+  }
+
+  @media (max-width: 520px) {
+    flex-basis: 4.5rem;
+  }
+}
+
+.gallery-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  /* Nudges the triangle right so it looks centred in the circle */
+  padding-left: 2px;
+  border-radius: 50%;
+  background: rgba(30, 45, 24, 0.75);
+  color: var(--white);
+  transform: translate(-50%, -50%);
+}
+
 .detail-title {
   font-size: clamp(2rem, 4vw, 3rem);
   color: var(--green);
@@ -1577,23 +1902,27 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .detail-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
   margin-top: 2rem;
-}
-
-@media (max-width: 520px) {
-  .detail-head {
-    padding-top: 7rem;
-  }
 }
 
 /* --- DETAIL FACTS --- */
 
+/* Same soft fade from the white sections above and below as #djelatnosti on the home page */
 .detail-facts {
-  background: var(--cream);
+  background:
+    linear-gradient(var(--white), transparent 80px),
+    linear-gradient(to top, var(--white), transparent 80px), var(--cream);
   padding: 4.5rem 1.5rem;
+
+  /* Laptops and desktops: with only a few facts the section is short, and the fades took up most of it */
+  @media (min-width: 1025px) and (hover: hover) and (pointer: fine) {
+    padding-block: 6rem;
+  }
+
+  /* No related items below: the footer follows, so only the top fades */
+  &:last-child {
+    background: linear-gradient(var(--white), transparent 80px), var(--cream);
+  }
 }
 
 .detail-facts-layout {
@@ -1643,7 +1972,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 }
 
 .fact-label {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--gray);
@@ -1669,7 +1998,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   background: #eef6e8;
   border-radius: 12px;
   border-left: 3px solid var(--green-lt);
-  font-size: 0.86rem;
+  font-size: 0.875rem;
   color: var(--gray);
   line-height: 1.6;
 }
