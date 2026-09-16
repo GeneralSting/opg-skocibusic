@@ -1,4 +1,4 @@
-import { business, siteUrl } from "./site";
+import { absoluteUrl, business, siteUrl } from "./site";
 import { branches } from "./data";
 import { itemPath } from "./utilities";
 import type { Availability, Branch, CatalogItem } from "./types";
@@ -9,15 +9,13 @@ import type { Availability, Branch, CatalogItem } from "./types";
  * One graph per page, assembled from these nodes. The business is described in
  * full on the home page only; everywhere else it appears as a stub carrying
  * the same `@id`, so `seller`/`provider` references resolve without repeating
- * the whole offer catalogue on all sixteen other pages
+ * the whole offer catalogue on every other page
  */
 
 /** Stable node identity for the business, referenced across the site */
 const BUSINESS_ID = `${siteUrl}/#business`;
 
-const absolute = (path: string) => `${siteUrl}${path}`;
-
-export const itemUrl = (item: CatalogItem) => absolute(itemPath(item));
+export const itemUrl = (item: CatalogItem) => absoluteUrl(itemPath(item));
 
 /** schema.org availability per tag. "Po narudžbi" is MadeToOrder: it is produced or booked once agreed with the customer */
 const AVAILABILITY: Record<Availability, string> = {
@@ -51,7 +49,7 @@ function itemNode(item: CatalogItem, branch: Branch) {
   const url = itemUrl(item);
   const images = item.gallery
     .filter((media) => media.type === "image")
-    .map((media) => absolute(media.src));
+    .map((media) => absoluteUrl(media.src));
 
   const shared = {
     "@id": `${url}#item`,
@@ -117,10 +115,10 @@ export function localBusinessSchema() {
     description: business.description,
     telephone: business.phone,
     email: business.email,
-    image: absolute("/opengraph-image.jpg"),
+    image: absoluteUrl("/opengraph-image.jpg"),
     // The apple icon rather than favicon.ico: structured-data consumers want a
     // real raster image, and this one has an opaque background
-    logo: absolute("/apple-icon.png"),
+    logo: absoluteUrl("/apple-icon.png"),
     address: {
       "@type": "PostalAddress",
       streetAddress: business.street,
@@ -135,6 +133,7 @@ export function localBusinessSchema() {
       longitude: business.longitude,
     },
     hasMap: business.mapsUrl,
+    ...(business.facebook ? { sameAs: [business.facebook] } : {}),
     areaServed: { "@type": "AdministrativeArea", name: business.municipality },
     // Nested one level so the catalogue mirrors the site: a sub-catalogue per
     // line of business, each holding that branch's offers
@@ -179,7 +178,7 @@ export function collectionSchema({
   description: string;
   items: CatalogItem[];
 }) {
-  const url = absolute(path);
+  const url = absoluteUrl(path);
 
   return {
     "@type": "CollectionPage",

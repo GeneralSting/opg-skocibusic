@@ -74,6 +74,23 @@ describe("SEO titles", () => {
   });
 });
 
+describe("SEO descriptions", () => {
+  // Google cuts the search snippet off around here, mid-sentence, and nothing on the page shows it
+  const MAX = 160;
+
+  it(`stay under ${MAX} characters`, () => {
+    for (const item of allItems) {
+      expect(item.seoDescription.length, item.seoDescription).toBeLessThanOrEqual(MAX);
+    }
+  });
+
+  it("are present on every item", () => {
+    for (const item of allItems) {
+      expect(item.seoDescription.trim(), item.id).not.toBe("");
+    }
+  });
+});
+
 describe("images", () => {
   // Typo here renders "Fotografija dolazi" placeholder or a broken box, which is easy to miss on a page
   const exists = (src: string) => existsSync(join(projectRoot, "public", src));
@@ -89,9 +106,35 @@ describe("images", () => {
     }
   });
 
+  // Screen readers and Google Images read these, and nothing on the page shows them
+  it("in catalogue galleries each carry their own alt text", () => {
+    for (const item of allItems) {
+      const alts = item.gallery.flatMap((media) =>
+        media.type === "image" ? [media.alt.trim()] : [],
+      );
+
+      for (const alt of alts) {
+        expect(alt, item.id).not.toBe("");
+        expect(alt, `${item.id}: alt repeats the title`).not.toBe(item.title);
+      }
+      expect(new Set(alts).size, `${item.id}: two photos share an alt`).toBe(
+        alts.length,
+      );
+    }
+  });
+
   it("referenced by branches exist in public/", () => {
     for (const branch of branches) {
       expect(exists(branch.img), branch.img).toBe(true);
+    }
+  });
+
+  it("on the branch cards carry alt text", () => {
+    for (const branch of branches) {
+      expect(branch.imgAlt.trim(), branch.id).not.toBe("");
+      expect(branch.imgAlt, `${branch.id}: alt repeats the title`).not.toBe(
+        branch.title,
+      );
     }
   });
 

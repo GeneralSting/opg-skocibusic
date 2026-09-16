@@ -10,13 +10,6 @@ const nextConfig: NextConfig = {
     // without a candidate between 384 and 640 the browser had to take 640 and
     // throw away 42% of it. Entries must stay below deviceSizes[0] (640).
     imageSizes: [32, 48, 64, 96, 128, 256, 384, 512],
-    remotePatterns: [
-      {
-        // Used by the "Biljni terarij" product image in app/data.ts.
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
-    ],
   },
   // Item pages merged or renamed when the catalogue was regrouped, so old links
   // and search results land on the page that now covers them
@@ -40,6 +33,23 @@ const nextConfig: NextConfig = {
       {
         source: "/proizvodi-i-usluge/presadnice-drveca",
         destination: "/proizvodi-i-usluge/sadnice-drveca",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi-i-usluge/terariji",
+        destination: "/proizvodi-i-usluge/biljni-terariji",
+        permanent: true,
+      },
+      {
+        // Mowing now sits under clearing overgrown land
+        source: "/proizvodi-i-usluge/kosnja",
+        destination: "/proizvodi-i-usluge/krcenje",
+        permanent: true,
+      },
+      {
+        // Eggs are no longer offered; the catalogue shows what is
+        source: "/proizvodi-i-usluge/jaja",
+        destination: "/proizvodi-i-usluge",
         permanent: true,
       },
     ];

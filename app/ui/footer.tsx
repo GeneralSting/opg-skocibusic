@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { business } from "../site";
 
 export default function Footer() {
   return (
@@ -11,13 +12,12 @@ export default function Footer() {
             width={48}
             height={48}
           />
-          <span>OPG Skočibušić</span>
+          <span>{business.name}</span>
         </div>
 
-        {/* SEKCIJA 2: Prave PNG Ikone */}
         <div className="footer-icons-slim">
           <a
-            href="tel:+385914345249"
+            href={`tel:${business.phone}`}
             rel="nofollow"
             style={{ display: "flex", alignItems: "center" }}
           >
@@ -30,20 +30,22 @@ export default function Footer() {
             />
           </a>
 
+          {business.facebook && (
+            <a
+              href={business.facebook}
+              target="_blank"
+              rel="nofollow noopener noreferrer"
+            >
+              <Image
+                src="/contact/facebook.png"
+                alt="Facebook"
+                width={32}
+                height={32}
+              />
+            </a>
+          )}
           <a
-            href="https://facebook.com/placeholder"
-            target="_blank"
-            rel="nofollow noopener noreferrer"
-          >
-            <Image
-              src="/contact/facebook.png"
-              alt="Facebook"
-              width={32}
-              height={32}
-            />
-          </a>
-          <a
-            href="https://wa.me/385914345249"
+            href={business.whatsapp}
             target="_blank"
             rel="nofollow noopener noreferrer"
           >
@@ -54,7 +56,7 @@ export default function Footer() {
               height={32}
             />
           </a>
-          <a href="mailto:drskocibusic@gmail.com" rel="nofollow">
+          <a href={`mailto:${business.email}`} rel="nofollow">
             <Image
               src="/contact/gmail.png"
               alt="Pošaljite e-mail"
@@ -64,7 +66,6 @@ export default function Footer() {
           </a>
         </div>
 
-        {/* SEKCIJA 3: Copyright */}
         {/* Baked in at build time, since the page is fully static. It rolls
             over on the next deploy, not on new year's eve */}
         <div className="footer-copy-slim">

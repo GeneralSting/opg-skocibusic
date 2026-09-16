@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { business, siteUrl } from "./site";
 import { ScrollReveal } from "./ui/scroll-reveal";
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   /**
-   * No `icons` field: app/icon.tsx and app/apple-icon.tsx are file convertions, so Next emits the link
+   * No `icons` field: app/favicon.ico and app/apple-icon.png are file conventions, so Next emits the link
    * with correct type and size attributes itself
    */
   openGraph: {
@@ -103,6 +104,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: navBootScript }} />
         {children}
         <ScrollReveal />
+        <Analytics />
       </body>
     </html>
   );

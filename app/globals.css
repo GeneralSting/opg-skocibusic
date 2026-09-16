@@ -215,26 +215,26 @@ section {
   }
 }
 
-/* ── CONTACT BUTTONS (catalogue header and closing prompt, detail pages) ── */
+/* ── BUTTON PAIR (contact buttons on the catalogue and detail pages, 404 page) ── */
 
 /*
  * A shrink-to-fit grid: both `1fr` columns grow to the wider button, so the
  * call and WhatsApp buttons are always the same width
  */
-.contact-buttons {
+.button-pair {
   display: inline-grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 
 /* The white outline button on dark backgrounds carries a 180px minimum; matching it keeps the pair one size everywhere */
-.contact-buttons .btn {
+.button-pair .btn {
   min-width: 180px;
 }
 
 /* Stacked on phones, both as wide as the 260px cap on `.btn`. The full width matters inside flex rows, which would otherwise shrink the grid to its content */
 @media (max-width: 480px) {
-  .contact-buttons {
+  .button-pair {
     display: grid;
     grid-template-columns: min(100%, 260px);
     width: 100%;
@@ -786,7 +786,7 @@ html:not(.nav-at-top) .nav-links .nav-pill::before {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
- * DETAIL PAGE - /
+ * HOME PAGE - /
  * ══════════════════════════════════════════════════════════════════════════ */
 
 @keyframes enter-up {
@@ -1617,7 +1617,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
     text-align: center;
 
     .breadcrumbs ol,
-    .contact-buttons {
+    .button-pair {
       justify-content: center;
     }
   }
@@ -1674,7 +1674,7 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
     justify-content: center;
     text-align: center;
 
-    .contact-buttons {
+    .button-pair {
       justify-content: center;
     }
   }
@@ -2032,4 +2032,24 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   display: flex;
   justify-content: center;
   margin-top: 3rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+ * NOT FOUND PAGE - any URL the site does not have
+ * ══════════════════════════════════════════════════════════════════════════ */
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(var(--screen) * 100);
+  padding: calc(70px + 2rem) 1.5rem 4rem;
+  background: var(--white);
+}
+
+/* One column centred on the screen, with label, title, description and buttons lined up on its left edge like every other section */
+.not-found-content {
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { business } from "../site";
 
 export default function Contact() {
   return (
@@ -11,13 +12,13 @@ export default function Contact() {
             <p className="section-desc">
               Za sve upite o dostupnosti, cijenama i narudžbama obratite nam se
               izravno. Ne nudimo online kupnju pa preuzimanje i dostavu
-              rješavamo po dogovoru
+              rješavamo po dogovoru.
             </p>
 
             <div className="contact-cards" data-reveal="stagger-left">
               <a
                 className="contact-card"
-                href="tel:+385914345249"
+                href={`tel:${business.phone}`}
                 rel="nofollow"
               >
                 <Image
@@ -28,13 +29,13 @@ export default function Contact() {
                 />
                 <div className="info">
                   <div className="lbl">Mobitel</div>
-                  <div className="val">+385 91 434 5249</div>
+                  <div className="val">{business.phoneDisplay}</div>
                 </div>
               </a>
 
               <a
                 className="contact-card"
-                href="https://wa.me/385914345249"
+                href={business.whatsapp}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
               >
@@ -50,27 +51,29 @@ export default function Contact() {
                 </div>
               </a>
 
-              <a
-                className="contact-card"
-                href="https://facebook.com/placeholder"
-                target="_blank"
-                rel="nofollow noopener noreferrer"
-              >
-                <Image
-                  src="/contact/facebook.png"
-                  alt="Facebook"
-                  width={28}
-                  height={28}
-                />
-                <div className="info">
-                  <div className="lbl">Facebook</div>
-                  <div className="val">OPG Skočibušić</div>
-                </div>
-              </a>
+              {business.facebook && (
+                <a
+                  className="contact-card"
+                  href={business.facebook}
+                  target="_blank"
+                  rel="nofollow noopener noreferrer"
+                >
+                  <Image
+                    src="/contact/facebook.png"
+                    alt="Facebook"
+                    width={28}
+                    height={28}
+                  />
+                  <div className="info">
+                    <div className="lbl">Facebook</div>
+                    <div className="val">{business.name}</div>
+                  </div>
+                </a>
+              )}
 
               <a
                 className="contact-card"
-                href="mailto:drskocibusic@gmail.com"
+                href={`mailto:${business.email}`}
                 rel="nofollow"
               >
                 <Image
@@ -81,7 +84,7 @@ export default function Contact() {
                 />
                 <div className="info">
                   <div className="lbl">E-mail</div>
-                  <div className="val">drskocibusic@gmail.com</div>
+                  <div className="val">{business.email}</div>
                 </div>
               </a>
             </div>

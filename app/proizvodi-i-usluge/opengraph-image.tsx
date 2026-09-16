@@ -10,7 +10,7 @@ export default function Image() {
     kicker: "Katalog",
     title: "Proizvodi i usluge",
     description:
-      "Meso, jaja i hrana za stoku, povrće i presadnice, biljni terariji te usluge košnje, krčenja i rada strojevima.",
+      "Meso i hrana za stoku, voće i povrće, presadnice, sadnice drveća i biljni terariji te krčenje, košnja i obrada zemlje.",
     badge: `${allItems.length} stavki`,
   });
 }

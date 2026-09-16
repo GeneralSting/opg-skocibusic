@@ -9,7 +9,11 @@ export type Availability = "Dostupno" | "Po narudžbi" | "Uskoro";
 export type GalleryImage = {
   type: "image";
   src: string;
-  alt?: string; // Falls back to the item title
+  /**
+   * What the photo shows, in Croatian. Read by screen readers and Google Images,
+   * so describe the picture itself rather than repeating the item title
+   */
+  alt: string;
 };
 
 export type GalleryVideo = {
@@ -31,6 +35,12 @@ export type CatalogItem = {
    * ~43 characters
    */
   seoTitle: string;
+  /**
+   * `<meta name="description">` and the Open Graph description. The on-page
+   * `lead` runs longer than the ~160 characters Google shows, so this is a
+   * separate summary that fits
+   */
+  seoDescription: string;
   tag: Availability;
   /**
    * Photos and videos on the detail page. The first entry must be a photo: it
@@ -57,6 +67,8 @@ export type Branch = {
   title: string;
   desc: string;
   img: string;
+  /** What the branch card photo shows, in Croatian, as on a gallery photo */
+  imgAlt: string;
   items: CatalogItem[];
 };
 

@@ -13,7 +13,7 @@ export default function About() {
           {/* Server Component - static content */}
           <div className="about-content" data-reveal="right">
             <div className="section-label">O nama</div>
-            <h2 className="section-title">Malo gospodarstvo Velika pažnja</h2>
+            <h2 className="section-title">Malo gospodarstvo, velika pažnja</h2>
             <p className="section-desc">
               Naše obiteljsko poljoprivredno gospodarstvo nalazi se u Koritni
               (Općina Semeljci), u samom srcu plodne slavonske zemlje. Nismo
@@ -26,7 +26,7 @@ export default function About() {
               <div className="value-item">
                 <Image
                   src="/about/location.png"
-                  alt="Plodna Slavonija"
+                  alt=""
                   width={64}
                   height={64}
                   className="v-icon"
@@ -44,7 +44,7 @@ export default function About() {
               <div className="value-item">
                 <Image
                   src="/about/agreement.png"
-                  alt="Isti stol"
+                  alt=""
                   width={64}
                   height={64}
                   className="v-icon"
@@ -61,7 +61,7 @@ export default function About() {
               <div className="value-item">
                 <Image
                   src="/about/love.png"
-                  alt="Pažnja do kraja"
+                  alt=""
                   width={64}
                   height={64}
                   className="v-icon"
@@ -76,7 +76,7 @@ export default function About() {
               <div className="value-item">
                 <Image
                   src="/about/healthy-living.png"
-                  alt="Bez nepotrebnih dodataka"
+                  alt=""
                   width={64}
                   height={64}
                   className="v-icon"

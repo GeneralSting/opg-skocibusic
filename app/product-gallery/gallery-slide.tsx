@@ -27,7 +27,7 @@ export const GallerySlide: FC<GallerySlideProps> = ({
     {mediaItem.type === "image" ? (
       <Image
         src={mediaItem.src}
-        alt={mediaItem.alt ?? title}
+        alt={mediaItem.alt}
         fill
         quality={70}
         sizes={SLIDE_SIZES}

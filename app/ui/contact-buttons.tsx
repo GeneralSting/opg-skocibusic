@@ -8,12 +8,12 @@ interface ContactButtonsProps {
 /**
  * Call and WhatsApp buttons, shared by the catalogue header, the catalogue's
  * closing prompt and every detail page. Both buttons are always the same width
- * (see `.contact-buttons` in globals.css)
+ * (see `.button-pair` in globals.css)
  */
 export const ContactButtons: FC<ContactButtonsProps> = ({
   variant = "light",
 }) => (
-  <div className="contact-buttons">
+  <div className="button-pair">
     <a href={`tel:${business.phone}`} rel="nofollow" className="btn btn-primary">
       Nazovite
     </a>

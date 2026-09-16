@@ -8,7 +8,7 @@ import { ContactButtons } from "../../ui/contact-buttons";
 import { ProductGallery } from "../../product-gallery";
 import { ItemCard, AvailabilityTag, GRID_CARD_SIZES } from "../../ui/item-card";
 import { JsonLd } from "../../ui/json-ld";
-import { allItems, MISSING_IMAGE_TEXT } from "../../data";
+import { allItems, FACT_CARD_COPY, MISSING_IMAGE_TEXT } from "../../data";
 import { findItem, itemPath } from "../../utilities";
 import { business, siteUrl, socialMeta } from "../../site";
 import {
@@ -26,6 +26,9 @@ export function generateStaticParams() {
   return allItems.map((item) => ({ id: item.id }));
 }
 
+// The catalogue is fixed at build time, so any other slug is a plain 404 instead of a page rendered on request
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const found = findItem((await params).id);
   if (!found) return {};
@@ -35,9 +38,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: item.seoTitle,
-    description: item.lead,
+    description: item.seoDescription,
     alternates: { canonical: path },
-    ...socialMeta({ title: item.seoTitle, description: item.lead, path }),
+    ...socialMeta({
+      title: item.seoTitle,
+      description: item.seoDescription,
+      path,
+    }),
   };
 }
 
@@ -46,6 +53,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
   if (!found) notFound();
 
   const { branch, item } = found;
+  const factCopy = FACT_CARD_COPY[branch.kind];
   const related = branch.items.filter(
     (branchItem) => branchItem.id !== item.id,
   );
@@ -109,9 +117,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
                 <div className="fact-value strong">{item.availability}</div>
               </div>
               <div className="fact bordered">
-                <div className="fact-label">
-                  {branch.kind === "service" ? "Obračun" : "Preuzimanje"}
-                </div>
+                <div className="fact-label">{factCopy.settleLabel}</div>
                 <div className="fact-value">{item.settle}</div>
               </div>
               <div className="fact bordered">
@@ -120,10 +126,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
                   {business.locality}, {business.municipality}
                 </div>
               </div>
-              <p className="fact-note">
-                Ne nudimo online kupnju. Dostupnost i isporuka dogovaraju se
-                osobno
-              </p>
+              <p className="fact-note">{factCopy.note}</p>
             </aside>
           </div>
         </section>

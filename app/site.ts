@@ -21,6 +21,9 @@ function resolveSiteUrl(): string {
 
 export const siteUrl = resolveSiteUrl();
 
+// Site-relative path as a full URL on the canonical domain, for structured data and the sitemap
+export const absoluteUrl = (path: string) => `${siteUrl}${path}`;
+
 /**
  * Origin for calling our own image optimiser, used by the share cards.
  *
@@ -74,19 +77,19 @@ export const business = {
   name: "OPG Skočibušić",
   legalName: "OPG Skočibušić Mario",
   // Feeds the home page <title>, which the brand suffix pushes to 58 chars
-  tagline: "Domaća hrana i usluge, Koritna i Semeljci",
+  tagline: "Domaći Proizvodi i Usluge iz Koritne",
   // Feeds <meta name="description">, og:description and twitter:description
   // Keep it under ~160 characters or Google truncates it in results
   description:
-    "OPG Skočibušić iz Koritne u općini Semeljci: domaće meso, jaja i povrće s plodne slavonske zemlje te košnja, krčenje i strojni radovi u ratarstvu.",
+    "OPG Skočibušić iz Koritne u općini Semeljci: domaće meso, voće i povrće, presadnice i sadnice s plodne slavonske zemlje te krčenje, košnja i strojni radovi.",
   phone: "+385914345249",
   phoneDisplay: "+385 91 434 5249",
   email: "drskocibusic@gmail.com",
   whatsapp: "https://wa.me/385914345249",
-  // Still a placeholder, and deliberately left out of the JSON-LD `sameAs` in
-  // app/schema.ts: publishing a fake profile URL to Google is worse than
-  // publishing none. Add it there once the real page exists
-  facebook: "https://facebook.com/placeholder",
+  // Facebook page URL. While null, the contact section and footer leave the
+  // Facebook link out and the JSON-LD has no `sameAs`: a dead profile link is
+  // worse than none. Filling it in turns all three on
+  facebook: "https://web.facebook.com/opg.skocibusic",
   street: "Kolodvorska 129",
   postalCode: "31402",
   locality: "Koritna",

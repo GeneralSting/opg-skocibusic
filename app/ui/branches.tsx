@@ -85,7 +85,7 @@ export default function Branches() {
                 {branch.img ? (
                   <Image
                     src={branch.img}
-                    alt=""
+                    alt={branch.imgAlt}
                     fill
                     quality={70}
                     sizes="(min-width: 1148px) 534px, (min-width: 768px) calc((100vw - 80px) / 2), calc(100vw - 48px)"

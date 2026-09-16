@@ -16,9 +16,9 @@ import {
   graph,
 } from "../schema";
 
-const title = "Proizvodi i usluge";
+const title = "Domaće Meso, Stočna Hrana i Presadnice";
 const description =
-  "Cjelovita ponuda OPG-a Skočibušić iz Koritne: meso, jaja i hrana za stoku, povrće i presadnice, biljni terariji te usluge košnje, krčenja i rada strojevima.";
+  "Ponuda OPG-a Skočibušić iz Koritne, Općine Semeljci: meso i hrana za stoku, voće i povrće, presadnice, sadnice drveća i biljni terariji te krčenje, košnja i obrada zemlje.";
 const path = "/proizvodi-i-usluge";
 
 export const metadata: Metadata = {

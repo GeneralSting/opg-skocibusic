@@ -42,7 +42,7 @@ export const ItemCard: FC<{ item: CatalogItem; sizes: string }> = ({
         {cover ? (
           <Image
             src={cover.src}
-            alt={cover.alt ?? item.title}
+            alt={cover.alt}
             fill
             quality={70}
             sizes={sizes}
