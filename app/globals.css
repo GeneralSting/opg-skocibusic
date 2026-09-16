@@ -1001,10 +1001,13 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
 }
 
+/* Stacked and as wide as the catalogue header's pair, so the two pages offer the same size target on a phone */
 @media (max-width: 480px) {
   .home-buttons {
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: min(100%, 260px);
+    justify-content: center;
+    width: 100%;
   }
 }
 

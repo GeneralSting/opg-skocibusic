@@ -7,7 +7,7 @@ import { Breadcrumbs } from "../ui/breadcrumbs";
 import { ContactButtons } from "../ui/contact-buttons";
 import { ItemCard, GRID_CARD_SIZES } from "../ui/item-card";
 import { JsonLd } from "../ui/json-ld";
-import { allItems, branches } from "../data";
+import { allItems, branches, CATALOG_HEAD_PHOTO } from "../data";
 import { siteUrl, socialMeta } from "../site";
 import {
   breadcrumbSchema,
@@ -35,7 +35,7 @@ export default function ProizvodiIUsluge() {
       <main>
         <section className="page-head">
           <Image
-            src="/products-services-bg.webp"
+            src={CATALOG_HEAD_PHOTO}
             alt=""
             fill
             preload

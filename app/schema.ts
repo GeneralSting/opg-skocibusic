@@ -67,7 +67,10 @@ function itemNode(item: CatalogItem, branch: Branch) {
         ...shared,
         serviceType: item.title,
         provider: { "@id": BUSINESS_ID },
-        areaServed: { "@type": "AdministrativeArea", name: business.municipality },
+        areaServed: {
+          "@type": "AdministrativeArea",
+          name: business.municipality,
+        },
       }
     : {
         "@type": "Product",

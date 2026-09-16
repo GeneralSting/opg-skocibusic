@@ -49,6 +49,9 @@ export const aboutImages: AboutImage[] = [
 
 export const MISSING_IMAGE_TEXT = "Fotografija dolazi";
 
+/** Photo behind the catalogue header, and the picture that page shares */
+export const CATALOG_HEAD_PHOTO = "/products-services-bg.webp";
+
 /** Fact card wording on a detail page that differs between goods and work performed */
 export const FACT_CARD_COPY: Record<
   Branch["kind"],
