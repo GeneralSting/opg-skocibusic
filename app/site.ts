@@ -27,14 +27,23 @@ export const absoluteUrl = (path: string) => `${siteUrl}${path}`;
 /**
  * Origin for calling our own image optimiser, used by the share cards.
  *
- * Deliberately not `siteUrl`: that is the canonical public domain, which a
- * local server or a preview deployment is not — and `.env` sets it to the
- * production domain even in development. The optimiser only has to be reached,
- * not linked to, so the nearest running instance is the right target
+ * On the production deployment it is the public domain. The deployment's own
+ * `VERCEL_URL` does not work there: Vercel's Deployment Protection puts that
+ * `*.vercel.app` address behind a login, and the catalogue card is rendered
+ * during the build, before the new deployment answers at all. Either way the
+ * fetch failed and every link preview fell back to the typographic card. The
+ * live domain answers in both cases
+ *
+ * Previews and local runs keep their own instance: `.env` sets `siteUrl` to the
+ * production domain even in development, which would miss photos not yet
+ * deployed
  */
-export const internalOrigin = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : `http://127.0.0.1:${process.env.PORT ?? 3000}`;
+export const internalOrigin =
+  process.env.VERCEL_ENV === "production"
+    ? siteUrl
+    : process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}`
+      : `http://127.0.0.1:${process.env.PORT ?? 3000}`;
 
 /**
  * Open Graph + Twitter tags for a subpage

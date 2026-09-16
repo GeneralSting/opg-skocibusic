@@ -34,27 +34,51 @@ export const OG_CONTENT_TYPE = "image/png";
 export async function sharePhoto(src: string): Promise<Response | null> {
   if (!src) return null;
 
+  for (const width of SHARE_PHOTO_WIDTHS) {
+    const photo = await fetchJpeg(src, width);
+    if (photo) {
+      return new Response(photo, {
+        headers: {
+          "content-type": SHARE_PHOTO_CONTENT_TYPE,
+          "cache-control": "public, max-age=31536000, immutable",
+        },
+      });
+    }
+  }
+
+  return null;
+}
+
+export const SHARE_PHOTO_CONTENT_TYPE = "image/jpeg";
+
+/**
+ * Widths to ask for, largest first, all from Next's default `deviceSizes`
+ *
+ * Vercel's optimiser does not always transcode: for the BuzzCut logo it handed
+ * back the original WebP at 1200 and 1080 and only returned a JPEG from 828
+ * down, apparently keeping the original whenever a JPEG would come out heavier.
+ * Flat artwork like a logo does. So a smaller size is tried before giving up
+ */
+const SHARE_PHOTO_WIDTHS = [1200, 1080, 828, 640];
+
+async function fetchJpeg(
+  src: string,
+  width: number,
+): Promise<ArrayBuffer | null> {
   try {
-    const url = `${internalOrigin}/_next/image?url=${encodeURIComponent(src)}&w=1200&q=75`;
+    const url = `${internalOrigin}/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=75`;
     const response = await fetch(url, { headers: { accept: "image/jpeg" } });
     if (!response.ok) return null;
 
+    // WebP or AVIF would break older crawlers
     const type = response.headers.get("content-type") ?? "";
-    // A proxy that hands back WebP or AVIF anyway would break older crawlers
     if (!type.includes("jpeg")) return null;
 
-    return new Response(await response.arrayBuffer(), {
-      headers: {
-        "content-type": SHARE_PHOTO_CONTENT_TYPE,
-        "cache-control": "public, max-age=31536000, immutable",
-      },
-    });
+    return await response.arrayBuffer();
   } catch {
     return null;
   }
 }
-
-export const SHARE_PHOTO_CONTENT_TYPE = "image/jpeg";
 
 /** Kicker and availability badge. Sits at the top of a typographic card and at
  * the head of the bottom stack on a photograph
