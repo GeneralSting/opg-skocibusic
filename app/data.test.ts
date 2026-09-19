@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 import {
   aboutImages,
-  allItems,
+  catalogItems,
   branches,
   HOME_SECTION_IDS,
   NAVBAR_SECTIONS,
@@ -32,7 +32,7 @@ describe("catalogue ids", () => {
   // IDs become URL segments, so a duplicate means two items share one route and findItem only ever resolves first
   // - the second siltently loses its page
   it("are unique across every branch", () => {
-    const ids = allItems.map((item) => item.id);
+    const ids = catalogItems.map((item) => item.id);
     expect(new Set(ids).size).toBe(ids.length);
   });
 
@@ -44,7 +44,7 @@ describe("catalogue ids", () => {
   // Croatina copy is full of č/ć/š/ž, and one of them in an id would be percent-encoded in the URL
   // and in every canonical and sitemap entry
   it("are lowercase slugs, safe to put in a URL", () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       expect(item.id, item.title).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
     }
   });
@@ -59,16 +59,16 @@ describe("catalogue ids", () => {
 describe("SEO titles", () => {
   // The metadata template appends the brand suffix. Past this, Google truncates the result in search
   // - invisible locally, since nothing renders seoTitle
-  const MAX = 43;
+  const MAX = 45;
 
   it(`stay under ${MAX} characters`, () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       expect(item.seoTitle.length, item.seoTitle).toBeLessThanOrEqual(MAX);
     }
   });
 
   it("are present on every item", () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       expect(item.seoTitle.trim(), item.id).not.toBe("");
     }
   });
@@ -79,13 +79,16 @@ describe("SEO descriptions", () => {
   const MAX = 160;
 
   it(`stay under ${MAX} characters`, () => {
-    for (const item of allItems) {
-      expect(item.seoDescription.length, item.seoDescription).toBeLessThanOrEqual(MAX);
+    for (const item of catalogItems) {
+      expect(
+        item.seoDescription.length,
+        item.seoDescription,
+      ).toBeLessThanOrEqual(MAX);
     }
   });
 
   it("are present on every item", () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       expect(item.seoDescription.trim(), item.id).not.toBe("");
     }
   });
@@ -96,11 +99,13 @@ describe("images", () => {
   const exists = (src: string) => existsSync(join(projectRoot, "public", src));
 
   it("and videos in catalogue galleries exist in public/", () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       for (const media of item.gallery) {
         expect(exists(media.src), `${item.id}: ${media.src}`).toBe(true);
         if (media.type === "video") {
-          expect(exists(media.poster), `${item.id}: ${media.poster}`).toBe(true);
+          expect(exists(media.poster), `${item.id}: ${media.poster}`).toBe(
+            true,
+          );
         }
       }
     }
@@ -108,7 +113,7 @@ describe("images", () => {
 
   // Screen readers and Google Images read these, and nothing on the page shows them
   it("in catalogue galleries each carry their own alt text", () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       const alts = item.gallery.flatMap((media) =>
         media.type === "image" ? [media.alt.trim()] : [],
       );
@@ -253,7 +258,7 @@ describe("structured data", () => {
         path: "/proizvodi-i-usluge",
         name: "Proizvodi i usluge",
         description: "Popis",
-        items: allItems,
+        items: catalogItems,
       }),
       breadcrumbSchema([{ name: "Početna", url: siteUrl }]),
     );

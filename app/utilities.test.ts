@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { allItems } from "./data";
+import { catalogItems } from "./data";
 import { truncateText } from "./utilities";
 
 describe("truncateText", () => {
@@ -31,7 +31,7 @@ describe("truncateText", () => {
   });
 
   it("never leaves a card lead longer than the limit", () => {
-    for (const item of allItems) {
+    for (const item of catalogItems) {
       const preview = truncateText(item.lead, 90);
       expect(preview.replace(/\.\.\.$/, "").length).toBeLessThanOrEqual(90);
     }

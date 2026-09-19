@@ -1,8 +1,13 @@
 import type { MetadataRoute } from "next";
 import { absoluteUrl, siteUrl } from "./site";
-import { allItems } from "./data";
+import { catalogItems } from "./data";
 import { itemPath } from "./utilities";
-import type { CatalogItem, GalleryImage, GalleryMedia, GalleryVideo } from "./types";
+import type {
+  CatalogItem,
+  GalleryImage,
+  GalleryMedia,
+  GalleryVideo,
+} from "./types";
 
 const isImage = (media: GalleryMedia): media is GalleryImage =>
   media.type === "image";
@@ -53,6 +58,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
-    ...allItems.map((item) => itemEntry(item, lastModified)),
+    ...catalogItems.map((item) => itemEntry(item, lastModified)),
   ];
 }

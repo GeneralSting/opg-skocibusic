@@ -8,10 +8,10 @@ export const itemPath = (item: Pick<CatalogItem, "id">) =>
 // Item with this slug and the branch it belongs to, or null if there is none
 export function findItem(
   id: string,
-): { branch: Branch; item: CatalogItem } | null {
+): { branch: Branch; catalogItem: CatalogItem } | null {
   for (const branch of branches) {
-    const item = branch.items.find((branchItem) => branchItem.id === id);
-    if (item) return { branch, item };
+    const catalogItem = branch.items.find((branchItem) => branchItem.id === id);
+    if (catalogItem) return { branch, catalogItem };
   }
   return null;
 }

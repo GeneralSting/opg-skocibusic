@@ -130,7 +130,7 @@ export const Navbar: FC = () => {
             }}
           />
         </Link>
-        <div className="nav-logo-text">OPG Skočibušić</div>
+        <p className="nav-logo-text">OPG Skočibušić</p>
       </div>
 
       <NavbarDesktop

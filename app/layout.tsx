@@ -11,14 +11,14 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const title = `${business.tagline} — ${business.name}`;
+const title = `${business.tagline} - ${business.name}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl), // Required for canonical and Open Graph URLs to resolve to absolute paths
   // Subpages set a bare title; the template appends the brand to it
   title: {
     default: title,
-    template: `%s — ${business.name}`,
+    template: `%s - ${business.name}`,
   },
   description: business.description,
   keywords: [

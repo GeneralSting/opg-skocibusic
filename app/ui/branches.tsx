@@ -60,7 +60,7 @@ export default function Branches() {
     <section id="djelatnosti">
       <div className="container">
         <div className="branches-header" data-reveal="stagger">
-          <div className="section-label">Djelatnosti</div>
+          <p className="section-label">Djelatnosti</p>
           <h2 className="section-title">
             <span>Jedno gospodarstvo,</span> <span>četiri djelatnosti</span>
           </h2>
@@ -154,7 +154,8 @@ export default function Branches() {
               {openBranchData.items.map((item) => (
                 <ItemCard
                   key={item.id}
-                  item={item}
+                  catalogItem={item}
+                  dialogTitle
                   sizes="(min-width: 948px) 293px, (min-width: 664px) calc((100vw - 144px) / 2), calc(100vw - 120px)"
                 />
               ))}

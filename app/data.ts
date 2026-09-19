@@ -184,7 +184,7 @@ export const branches: Branch[] = [
       "Pletena košara puna rajčica, paprika, patlidžana, tikvica i drugog povrća",
     items: [
       {
-        id: "povrce",
+        id: "sezonsko-voce-povrce",
         seoTitle: "Sezonsko Voće i Povrće iz Koritne",
         seoDescription:
           "Sezonsko voće i povrće iz Koritne: salata, rajčica, paprika, jagode, dinje i lubenice. Uzgoj i priprema po narudžbi, od proljeća do jeseni.",
@@ -239,10 +239,10 @@ export const branches: Branch[] = [
         settle: "Preuzimanje na gospodarstvu ili dostava",
       },
       {
-        id: "presadnice-povrca",
+        id: "presadnice-voca-povrca",
         seoTitle: "Presadnice Povrća za Vrt i Plastenik",
         seoDescription:
-          "Presadnice paprike, rajčice, patlidžana, jagoda, lubenica i dinja iz vlastitog rasada u Koritni. Za vrt i plastenik, priprema po narudžbi,a dostupnost početkom proljeća.",
+          "Presadnice paprike, rajčice, patlidžana, jagoda, lubenica i dinja iz vlastitog rasada u Koritni. Priprema po narudžbi, a dostupnost početkom proljeća.",
         title: "Presadnice povrća",
         tag: "Po narudžbi",
         gallery: [
@@ -298,7 +298,7 @@ export const branches: Branch[] = [
     imgAlt: "Traktor sa sijačicom na pripremljenoj njivi",
     items: [
       {
-        id: "strojevi",
+        id: "poljoprivredne-usluge",
         seoTitle: "Usluge Oranja, Tanjuranja i Sjetve",
         seoDescription:
           "Oranje, tanjuranje, sjetva i košnja vlastitom mehanizacijom na području Općine Semeljci. Obračun po površini ili satu, prema ratarskoj sezoni.",
@@ -328,7 +328,7 @@ export const branches: Branch[] = [
         settle: "Obračun po površini ili satu",
       },
       {
-        id: "krcenje",
+        id: "krcenje-povrsina",
         seoTitle: "Krčenje Šikare i Održavanje Zelenih Površina",
         seoDescription:
           "Krčenje zaraslih parcela, uklanjanje šikare, grmlja i drvenastog raslinja te košnja na području Općine Semeljci. Obračun prema satu i procjeni na terenu.",
@@ -403,7 +403,7 @@ export const branches: Branch[] = [
       },
       {
         id: "biljni-terariji",
-        seoTitle: "Biljnji Terarij Fitonija",
+        seoTitle: "Terarij za Biljke",
         seoDescription:
           "Ručno rađeni biljni terariji u staklenkama od 100 ml i 150 ml, s fitonijama, mahovinom i ukrasnim kamenjem. Zatvoreni sustav traži vrlo malo njege.",
         title: "Biljni terariji",
@@ -445,6 +445,6 @@ export const branches: Branch[] = [
   },
 ];
 
-export const allItems: CatalogItem[] = branches.flatMap(
+export const catalogItems: CatalogItem[] = branches.flatMap(
   (branch) => branch.items,
 ); // every item across all branches, in catalogue order

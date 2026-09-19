@@ -12,7 +12,7 @@ export default function About() {
 
           {/* Server Component - static content */}
           <div className="about-content" data-reveal="right">
-            <div className="section-label">O nama</div>
+            <p className="section-label">O nama</p>
             <h2 className="section-title">Malo gospodarstvo, velika pažnja</h2>
             <p className="section-desc">
               Naše obiteljsko poljoprivredno gospodarstvo nalazi se u Koritni

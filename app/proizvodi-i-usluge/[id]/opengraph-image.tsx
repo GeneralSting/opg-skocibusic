@@ -27,10 +27,10 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateImageMetadata({ params }: Props) {
   const found = findItem((await params).id);
   const alt = found
-    ? `${found.item.title} — ${business.name}`
+    ? `${found.catalogItem.title} — ${business.name}`
     : `${business.name}`;
 
-  if (found?.item.gallery.length) {
+  if (found?.catalogItem.gallery.length) {
     return [{ id: "card", alt, contentType: SHARE_PHOTO_CONTENT_TYPE }];
   }
 
@@ -41,16 +41,16 @@ export default async function Image({ params }: Props) {
   const found = findItem((await params).id);
   if (!found) notFound();
 
-  const { branch, item } = found;
-  const [cover] = item.gallery;
+  const { branch, catalogItem } = found;
+  const [cover] = catalogItem.gallery;
 
   const photo = cover ? await sharePhoto(cover.src) : null;
   if (photo) return photo;
 
   return ogCard({
     kicker: branch.label,
-    title: item.title,
-    description: item.lead,
-    badge: item.tag,
+    title: catalogItem.title,
+    description: catalogItem.lead,
+    badge: catalogItem.tag,
   });
 }

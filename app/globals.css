@@ -290,7 +290,8 @@ section {
   gap: 1.25rem;
 }
 
-.item-card-body h3 {
+.item-card-body h3,
+.item-card-body h4 {
   font-size: 1.2rem;
   color: var(--green);
   margin-bottom: 0.5rem;
@@ -1605,11 +1606,11 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
     ),
     /* Covers the whole photo: darkest in the top-left corner where the text starts, easing off towards the far corner */
     radial-gradient(
-      farthest-corner at var(--shade-x) 0,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.62) 45%,
-      rgba(0, 0, 0, 0.45) 100%
-    );
+        farthest-corner at var(--shade-x) 0,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.62) 45%,
+        rgba(0, 0, 0, 0.45) 100%
+      );
 }
 
 .page-head-content {
@@ -1977,22 +1978,17 @@ html.reveal-ready [data-reveal^="stagger"]:not(.revealed) > * {
 .fact-label {
   font-size: 0.875rem;
   letter-spacing: 0.14em;
+  font-weight: 400;
   text-transform: uppercase;
   color: var(--gray);
   margin-bottom: 0.35rem;
 }
 
 .fact-value {
-  font-size: 0.98rem;
-  font-weight: 500;
-  color: var(--text);
-  line-height: 1.55;
-}
-
-.fact-value.strong {
   font-size: 1rem;
   font-weight: 600;
   color: var(--green);
+  line-height: 1.55;
 }
 
 .fact-note {

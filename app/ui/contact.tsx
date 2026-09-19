@@ -7,7 +7,7 @@ export default function Contact() {
       <div className="container">
         <div className="contact-grid">
           <div>
-            <div className="section-label">Kontakt</div>
+            <p className="section-label">Kontakt</p>
             <h2 className="section-title">Dogovorimo se</h2>
             <p className="section-desc">
               Za sve upite o dostupnosti, cijenama i narudžbama obratite nam se
@@ -28,8 +28,8 @@ export default function Contact() {
                   height={28}
                 />
                 <div className="info">
-                  <div className="lbl">Mobitel</div>
-                  <div className="val">{business.phoneDisplay}</div>
+                  <p className="lbl">Mobitel</p>
+                  <p className="val">{business.phoneDisplay}</p>
                 </div>
               </a>
 
@@ -46,8 +46,8 @@ export default function Contact() {
                   height={28}
                 />
                 <div className="info">
-                  <div className="lbl">WhatsApp</div>
-                  <div className="val">Pošalji poruku</div>
+                  <p className="lbl">WhatsApp</p>
+                  <p className="val">Pošalji poruku</p>
                 </div>
               </a>
 
@@ -65,8 +65,8 @@ export default function Contact() {
                     height={28}
                   />
                   <div className="info">
-                    <div className="lbl">Facebook</div>
-                    <div className="val">{business.name}</div>
+                    <p className="lbl">Facebook</p>
+                    <p className="val">{business.name}</p>
                   </div>
                 </a>
               )}
@@ -83,8 +83,8 @@ export default function Contact() {
                   height={28}
                 />
                 <div className="info">
-                  <div className="lbl">E-mail</div>
-                  <div className="val">{business.email}</div>
+                  <p className="lbl">E-mail</p>
+                  <p className="val">{business.email}</p>
                 </div>
               </a>
             </div>

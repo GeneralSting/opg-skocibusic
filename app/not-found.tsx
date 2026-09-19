@@ -19,7 +19,7 @@ export default function NotFound() {
       <main>
         <section className="not-found">
           <div className="not-found-content">
-            <div className="section-label">Greška 404</div>
+            <p className="section-label">Greška 404</p>
             <h1 className="detail-title">Stranica nije pronađena</h1>
             <p className="detail-lead">
               Stranica koju tražite ne postoji ili je premještena. Pogledajte

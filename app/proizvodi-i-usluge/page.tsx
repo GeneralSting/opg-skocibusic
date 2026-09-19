@@ -7,7 +7,7 @@ import { Breadcrumbs } from "../ui/breadcrumbs";
 import { ContactButtons } from "../ui/contact-buttons";
 import { ItemCard, GRID_CARD_SIZES } from "../ui/item-card";
 import { JsonLd } from "../ui/json-ld";
-import { allItems, branches, CATALOG_HEAD_PHOTO } from "../data";
+import { catalogItems, branches, CATALOG_HEAD_PHOTO } from "../data";
 import { siteUrl, socialMeta } from "../site";
 import {
   breadcrumbSchema,
@@ -80,7 +80,7 @@ export default function ProizvodiIUsluge() {
                   {branch.items.map((item) => (
                     <ItemCard
                       key={item.id}
-                      item={item}
+                      catalogItem={item}
                       sizes={GRID_CARD_SIZES}
                     />
                   ))}
@@ -103,7 +103,7 @@ export default function ProizvodiIUsluge() {
             path,
             name: title,
             description,
-            items: allItems,
+            items: catalogItems,
           }),
           breadcrumbSchema([
             { name: "Naslovnica", url: siteUrl },

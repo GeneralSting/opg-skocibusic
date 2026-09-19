@@ -5,6 +5,23 @@ import { itemPath, truncateText } from "../utilities";
 import { Availability, CatalogItem } from "../types";
 import { MISSING_IMAGE_TEXT } from "../data";
 
+/** Tag colour per availability: green available now, amber by prior agreement, grey not yet */
+const TAG_CLASS: Record<Availability, string> = {
+  Dostupno: "tag-now",
+  "Po narudžbi": "tag-order",
+  Uskoro: "tag-soon",
+};
+
+export const AvailabilityTag: FC<{ tag: Availability }> = ({ tag }) => (
+  <span className={`tag ${TAG_CLASS[tag]}`}>{tag}</span>
+);
+
+interface ItemCardProps {
+  catalogItem: CatalogItem;
+  sizes: string;
+  dialogTitle?: boolean;
+}
+
 /**
  * Rendered width of one `.items-grid` cell, used by the listing and the
  * "related items" strip
@@ -30,14 +47,21 @@ const LEAD_PREVIEW_LENGTH = 90;
  * page, so `sizes` is passed in by the caller — the rendered width differs in
  * each of those three places
  */
-export const ItemCard: FC<{ item: CatalogItem; sizes: string }> = ({
-  item,
+export const ItemCard = ({
+  catalogItem,
   sizes,
-}) => {
-  const [cover] = item.gallery;
+  dialogTitle = false,
+}: ItemCardProps) => {
+  const [cover] = catalogItem.gallery;
+
+  const hierarchicalHeader = dialogTitle ? (
+    <h4>{catalogItem.title}</h4>
+  ) : (
+    <h3>{catalogItem.title}</h3>
+  );
 
   return (
-    <Link href={itemPath(item)} className="item-card">
+    <Link href={itemPath(catalogItem)} className="item-card">
       <div className="item-card-media">
         {cover ? (
           <Image
@@ -55,22 +79,11 @@ export const ItemCard: FC<{ item: CatalogItem; sizes: string }> = ({
 
       <div className="item-card-body">
         <div>
-          <h3>{item.title}</h3>
-          <p>{truncateText(item.lead, LEAD_PREVIEW_LENGTH)}</p>
+          {hierarchicalHeader}
+          <p>{truncateText(catalogItem.lead, LEAD_PREVIEW_LENGTH)}</p>
         </div>
-        <AvailabilityTag tag={item.tag} />
+        <AvailabilityTag tag={catalogItem.tag} />
       </div>
     </Link>
   );
 };
-
-/** Tag colour per availability: green available now, amber by prior agreement, grey not yet */
-const TAG_CLASS: Record<Availability, string> = {
-  Dostupno: "tag-now",
-  "Po narudžbi": "tag-order",
-  Uskoro: "tag-soon",
-};
-
-export const AvailabilityTag: FC<{ tag: CatalogItem["tag"] }> = ({ tag }) => (
-  <span className={`tag ${TAG_CLASS[tag]}`}>{tag}</span>
-);

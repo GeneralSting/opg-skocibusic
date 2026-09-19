@@ -1,5 +1,5 @@
 import { SHARE_PHOTO_CONTENT_TYPE, ogCard, sharePhoto } from "../og-card";
-import { allItems, CATALOG_HEAD_PHOTO } from "../data";
+import { catalogItems, CATALOG_HEAD_PHOTO } from "../data";
 
 export const alt = "Katalog proizvoda i usluga OPG-a Skočibušić";
 export const contentType = SHARE_PHOTO_CONTENT_TYPE;
@@ -19,6 +19,6 @@ export default async function Image() {
     title: "Proizvodi i usluge",
     description:
       "Meso i hrana za stoku, voće i povrće, presadnice, sadnice drveća i biljni terariji te krčenje, košnja i obrada zemlje.",
-    badge: `${allItems.length} stavki`,
+    badge: `${catalogItems.length} stavki`,
   });
 }

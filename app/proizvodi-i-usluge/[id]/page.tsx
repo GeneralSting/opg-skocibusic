@@ -8,7 +8,7 @@ import { ContactButtons } from "../../ui/contact-buttons";
 import { ProductGallery } from "../../product-gallery";
 import { ItemCard, AvailabilityTag, GRID_CARD_SIZES } from "../../ui/item-card";
 import { JsonLd } from "../../ui/json-ld";
-import { allItems, FACT_CARD_COPY, MISSING_IMAGE_TEXT } from "../../data";
+import { catalogItems, FACT_CARD_COPY, MISSING_IMAGE_TEXT } from "../../data";
 import { findItem, itemPath } from "../../utilities";
 import { business, siteUrl, socialMeta } from "../../site";
 import {
@@ -23,7 +23,7 @@ type Props = { params: Promise<{ id: string }> };
 
 /** Every catalogue item gets a prerendered page at build time. */
 export function generateStaticParams() {
-  return allItems.map((item) => ({ id: item.id }));
+  return catalogItems.map((item) => ({ id: item.id }));
 }
 
 // The catalogue is fixed at build time, so any other slug is a plain 404 instead of a page rendered on request
@@ -33,16 +33,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const found = findItem((await params).id);
   if (!found) return {};
 
-  const { item } = found;
-  const path = itemPath(item);
+  const { catalogItem } = found;
+  const path = itemPath(catalogItem);
 
   return {
-    title: item.seoTitle,
-    description: item.seoDescription,
+    title: catalogItem.seoTitle,
+    description: catalogItem.seoDescription,
     alternates: { canonical: path },
     ...socialMeta({
-      title: item.seoTitle,
-      description: item.seoDescription,
+      title: catalogItem.seoTitle,
+      description: catalogItem.seoDescription,
       path,
     }),
   };
@@ -52,10 +52,10 @@ export default async function DetaljiProizvoda({ params }: Props) {
   const found = findItem((await params).id);
   if (!found) notFound();
 
-  const { branch, item } = found;
+  const { branch, catalogItem } = found;
   const factCopy = FACT_CARD_COPY[branch.kind];
   const related = branch.items.filter(
-    (branchItem) => branchItem.id !== item.id,
+    (branchItem) => branchItem.id !== catalogItem.id,
   );
 
   return (
@@ -68,27 +68,30 @@ export default async function DetaljiProizvoda({ params }: Props) {
               crumbs={[
                 { label: "Naslovnica", href: "/" },
                 { label: "Proizvodi i usluge", href: "/proizvodi-i-usluge" },
-                { label: item.title },
+                { label: catalogItem.title },
               ]}
             />
 
             <div className="detail-layout">
-              {item.gallery.length > 0 ? (
-                <ProductGallery title={item.title} media={item.gallery} />
+              {catalogItem.gallery.length > 0 ? (
+                <ProductGallery
+                  title={catalogItem.title}
+                  media={catalogItem.gallery}
+                />
               ) : (
                 <div className="detail-media">
                   <div className="photo-pending-block">
                     <span className="photo-pending">{MISSING_IMAGE_TEXT}</span>
-                    <span>{item.title}</span>
+                    <span>{catalogItem.title}</span>
                   </div>
                 </div>
               )}
 
               <div>
-                <div className="section-label">{branch.label}</div>
-                <h1 className="detail-title">{item.title}</h1>
-                <p className="detail-lead">{item.lead}</p>
-                <AvailabilityTag tag={item.tag} />
+                <p className="section-label">{branch.label}</p>
+                <h1 className="detail-title">{catalogItem.title}</h1>
+                <p className="detail-lead">{catalogItem.lead}</p>
+                <AvailabilityTag tag={catalogItem.tag} />
 
                 <div className="detail-actions">
                   <ContactButtons />
@@ -101,9 +104,9 @@ export default async function DetaljiProizvoda({ params }: Props) {
         <section className="detail-facts">
           <div className="container detail-facts-layout">
             <div>
-              <div className="section-label">U ponudi</div>
+              <h2 className="section-label">U ponudi</h2>
               <ul className="bullet-grid">
-                {item.bullets.map((bullet) => (
+                {catalogItem.bullets.map((bullet) => (
                   <li key={bullet}>
                     <span aria-hidden="true">—</span> {bullet}
                   </li>
@@ -113,15 +116,15 @@ export default async function DetaljiProizvoda({ params }: Props) {
 
             <aside className="fact-card">
               <div className="fact">
-                <div className="fact-label">Dostupnost</div>
-                <div className="fact-value strong">{item.availability}</div>
+                <h3 className="fact-label">Dostupnost</h3>
+                <div className="fact-value">{catalogItem.availability}</div>
               </div>
               <div className="fact bordered">
-                <div className="fact-label">{factCopy.settleLabel}</div>
-                <div className="fact-value">{item.settle}</div>
+                <h3 className="fact-label">{factCopy.settleLabel}</h3>
+                <div className="fact-value">{catalogItem.settle}</div>
               </div>
               <div className="fact bordered">
-                <div className="fact-label">Lokacija</div>
+                <h3 className="fact-label">Lokacija</h3>
                 <div className="fact-value">
                   {business.locality}, {business.municipality}
                 </div>
@@ -134,7 +137,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
         {related.length > 0 && (
           <section className="related">
             <div className="container">
-              <div className="group-kicker">Iz iste djelatnosti</div>
+              <p className="group-kicker">Iz iste djelatnosti</p>
               <div className="group-divider">
                 <span className="rule" />
                 <div className="group-heading">
@@ -147,7 +150,7 @@ export default async function DetaljiProizvoda({ params }: Props) {
                 {related.map((relatedItem) => (
                   <ItemCard
                     key={relatedItem.id}
-                    item={relatedItem}
+                    catalogItem={relatedItem}
                     sizes={GRID_CARD_SIZES}
                   />
                 ))}
@@ -167,14 +170,14 @@ export default async function DetaljiProizvoda({ params }: Props) {
       <JsonLd
         schema={graph(
           businessStub(),
-          itemSchema(item, branch),
+          itemSchema(catalogItem, branch),
           breadcrumbSchema([
             { name: "Naslovnica", url: siteUrl },
             {
               name: "Proizvodi i usluge",
               url: `${siteUrl}/proizvodi-i-usluge`,
             },
-            { name: item.title, url: itemUrl(item) },
+            { name: catalogItem.title, url: itemUrl(catalogItem) },
           ]),
         )}
       />
